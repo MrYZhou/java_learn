@@ -1,6 +1,5 @@
-package completable;
+package thread.completable;
 
-import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;

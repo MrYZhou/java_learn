@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>aviator_demo</module>
+        <module>jdk_character</module>
     </modules>
     <groupId>larry</groupId>
     <artifactId>javademo</artifactId>

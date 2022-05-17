@@ -1,4 +1,4 @@
-package completable;
+package thread.completable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class MultiCoSolveTest {
 
         CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() -> "banana", executorService);
 
-        List<CompletableFuture<String>> list = new ArrayList<>(){{
+        List<CompletableFuture<String>> list = new ArrayList<CompletableFuture<String>>(){{
             add(future1);
             add(future2);
             add(future3);
@@ -51,7 +51,7 @@ public class MultiCoSolveTest {
 
         CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() -> "banana", executorService);
 
-        List<CompletableFuture<String>> list = new ArrayList<>(){{
+        List<CompletableFuture<String>> list = new ArrayList<CompletableFuture<String>>(){{
             add(future1);
             add(future2);
             add(future3);

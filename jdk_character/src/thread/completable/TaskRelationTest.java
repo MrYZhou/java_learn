@@ -1,4 +1,4 @@
-package completable;
+package thread.completable;
 
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;

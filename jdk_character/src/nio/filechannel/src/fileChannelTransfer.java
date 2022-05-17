@@ -1,3 +1,5 @@
+package nio.filechannel.src;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -6,7 +8,7 @@ import java.nio.channels.FileChannel;
 public class fileChannelTransfer {
     public static void main(String[] args) throws IOException {
         // 打开chnnel1
-        RandomAccessFile rw = new RandomAccessFile("./1.txt", "rw");
+        RandomAccessFile rw = new RandomAccessFile("nio/filechannel/src/1.txt", "rw");
         FileChannel channel = rw.getChannel();
 
         RandomAccessFile rw2 = new RandomAccessFile("./2.txt", "rw");
