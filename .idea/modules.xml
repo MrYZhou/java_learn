@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/aviator_demo/aviator_demo.iml" filepath="$PROJECT_DIR$/aviator_demo/aviator_demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/java_nio/fileChannel.iml" filepath="$PROJECT_DIR$/java_nio/fileChannel.iml" />
-      <module fileurl="file://$PROJECT_DIR$/java_learn.iml" filepath="$PROJECT_DIR$/java_learn.iml" />
       <module fileurl="file://$PROJECT_DIR$/java_nio/java_nio.iml" filepath="$PROJECT_DIR$/java_nio/java_nio.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jdk_character/jdk_character.iml" filepath="$PROJECT_DIR$/jdk_character/jdk_character.iml" />
     </modules>
   </component>
 </project>

@@ -12,6 +12,7 @@
     <modules>
         <module>aviator_demo</module>
         <module>jdk_character</module>
+        <module>aviator3</module>
     </modules>
     <groupId>larry</groupId>
     <artifactId>javademo</artifactId>

@@ -25,9 +25,15 @@ public class OptionalTest {
        }
    }
     public static void main(String[] args) {
-        Student student = new Student();
-        student.setName("larry");
-        getStudent(null);
+        // 直接抛出异常处理
+//        Student student = new Student();
+//        student.setName("larry");
+//        getStudent(null);
+
+        // 使用默认值返回
+        String name= "123";
+        String name1 = Optional.ofNullable(name).orElse("");
+        System.out.println(name1);
     }
 
     private static class MyException extends  Exception{
