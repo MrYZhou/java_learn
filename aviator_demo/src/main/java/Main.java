@@ -27,11 +27,11 @@ public class Main {
       log.error(e.toString());
     }
 
-        expression = "1 +* 2";
-        try {
-          AviatorEvaluator.validate(expression);
-        } catch (Exception e) {
-          log.error(e.toString());
-        }
+//        expression = "1 +* 2";
+//        try {
+//          AviatorEvaluator.validate(expression);
+//        } catch (Exception e) {
+//          log.error(e.toString());
+//        }
   }
 }

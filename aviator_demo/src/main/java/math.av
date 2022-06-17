@@ -20,3 +20,12 @@ if type == "multiplication"{
 if type == "division"{
   return a/b;
 }
+
+if type == "exp"{
+  try {
+    const value = eval(expStr)
+    return value
+  } catch (error) {
+    return false
+  }
+}

@@ -18,6 +18,7 @@ public class GroupBy {
     }};
     // 第三个形参是合并冲突使用
     Map<String, Integer> map = objects.stream().collect(Collectors.toMap(Student::getName, Student::getAge,(k1,k2)->k2) );
+    System.out.println(map);
     System.out.println(map.get("李四"));
   }
   @Data
@@ -27,4 +28,8 @@ public class GroupBy {
     String name;
     Integer age;
   }
+  /**
+   * 使用分组
+   * Map<String, List<RoleOrgEntity>> projectMap = list.stream().filter(t ->"-1".equals(t.getOrganizeId()) ).collect(Collectors.groupingBy(RoleOrgEntity::getName));
+   */
 }
