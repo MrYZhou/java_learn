@@ -7,9 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="aviator_demo" />
+        <module name="poi-tl" />
         <module name="aviator3" />
         <module name="jdk_character" />
+        <module name="aviator_demo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -22,6 +23,7 @@
       <module name="aviator_demo" options="-parameters" />
       <module name="java_learn" options="-parameters" />
       <module name="jdk_character" options="-parameters" />
+      <module name="poi-tl" options="-parameters" />
     </option>
   </component>
 </project>
