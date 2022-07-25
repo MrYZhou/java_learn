@@ -10,6 +10,7 @@
         <module name="poi-tl" />
         <module name="aviator3" />
         <module name="jdk_character" />
+        <module name="message" />
         <module name="aviator_demo" />
       </profile>
     </annotationProcessing>
@@ -23,6 +24,7 @@
       <module name="aviator_demo" options="-parameters" />
       <module name="java_learn" options="-parameters" />
       <module name="jdk_character" options="-parameters" />
+      <module name="message" options="-parameters" />
       <module name="poi-tl" options="-parameters" />
     </option>
   </component>
