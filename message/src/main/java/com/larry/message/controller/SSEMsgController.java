@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RestController
 @RequestMapping("/msg")
-public class MsgController {
+public class SSEMsgController {
 
     @GetMapping("/connect/{id}")
     public SseEmitter  connectUser(@PathVariable String id) throws Exception {
@@ -28,9 +28,6 @@ public class MsgController {
 
     /**
      * 创建连接
-     *
-     * @date: 2022/7/12 14:51
-     * @auther: 公众号：程序员小富
      */
     public static SseEmitter connect(String userId) {
         try {
