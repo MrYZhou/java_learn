@@ -10,11 +10,11 @@
         <module name="poi-tl" />
         <module name="aviator3" />
         <module name="jdk_character" />
-        <module name="message" />
         <module name="aviator_demo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="message" target="17" />
       <module name="other" target="16" />
     </bytecodeTargetLevel>
   </component>

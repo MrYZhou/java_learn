@@ -1,4 +1,0 @@
-消息通信
-sse: spring框架的一个通信方式。可以很方便的实现服务端向客户端通信，但是没法进行接收客户端消息
-
-websocket： 基于spring-boot-starter-websocket实现。是全双工的双向通信。
