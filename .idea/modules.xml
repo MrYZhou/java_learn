@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/java_nio/fileChannel.iml" filepath="$PROJECT_DIR$/java_nio/fileChannel.iml" />
       <module fileurl="file://$PROJECT_DIR$/java_nio/java_nio.iml" filepath="$PROJECT_DIR$/java_nio/java_nio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jdk_character/jdk_character.iml" filepath="$PROJECT_DIR$/jdk_character/jdk_character.iml" />
     </modules>
   </component>
 </project>
