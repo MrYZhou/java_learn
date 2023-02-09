@@ -13,8 +13,8 @@ import java.util.function.BiConsumer;
 public class TaskRelationTest {
 
     public static void main(String[] args) {
-//        thenApplyAsyc();
-//        handleAsyc();
+//        thenApplyAsync();
+//        handleAsync();
 //        thenAcceptAsync();
         thenRunAsync();
     }
@@ -57,7 +57,7 @@ public class TaskRelationTest {
         System.out.println("main complete");
 
     }
-    public static void thenApplyAsyc() {
+    public static void thenApplyAsync() {
         ExecutorService executorService = Executors.newFixedThreadPool(100);
 
         CompletableFuture<Integer> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
@@ -94,7 +94,7 @@ public class TaskRelationTest {
         System.out.println(integer);
     }
 
-    public static void handleAsyc() {
+    public static void handleAsync() {
         ExecutorService executorService = Executors.newFixedThreadPool(100);
 
         CompletableFuture<Integer> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
