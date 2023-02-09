@@ -31,12 +31,9 @@ public class CoSolveTest {
         CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> "larry", executorService);
 
         future1.thenCombineAsync(future2, (f1, f2) -> f1 + " " + f2, executorService).whenCompleteAsync(
-                new BiConsumer<String, Throwable>() {
-                    @Override
-                    public void accept(String s, Throwable throwable) {
-                        System.out.println(s);
-                        executorService.shutdown();
-                    }
+                (s, throwable) -> {
+                    System.out.println(s);
+                    executorService.shutdown();
                 }
         );
     }

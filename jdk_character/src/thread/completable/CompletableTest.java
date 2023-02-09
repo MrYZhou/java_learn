@@ -4,17 +4,17 @@ package thread.completable;
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;
 
-/** 1.runAsyc 无返回值 2. supplierAsyc 有返回值 */
+/** 1.runAsync 无返回值 2. supplierAsync 有返回值 */
 public class CompletableTest {
 
   public static void main(String[] args) {
     // runAsync
-    //        runAsyc();
+    //        runAsync();
     // supplyAsync
-    supplierAsyc();
+    supplierAsync();
   }
 
-  public static void runAsyc() {
+  public static void runAsync() {
     ExecutorService executorService = Executors.newFixedThreadPool(100);
 
     CompletableFuture.runAsync(
@@ -31,7 +31,7 @@ public class CompletableTest {
     System.out.println("main complete");
   }
 
-  public static void supplierAsyc() {
+  public static void supplierAsync() {
     ExecutorService executorService = Executors.newFixedThreadPool(100);
 
     CompletableFuture<Integer> integerCompletableFuture =
