@@ -8,18 +8,8 @@ import java.util.Optional;
 public class OptionalTest {
    public  static void getStudent(Student student){
        Optional<Student> optional =  Optional.ofNullable(student);
-//       Student student1 = optional.orElse(null);
-//       optional.flatMap()
-//       optional.map()
-//       optional.filter()
-
-
-
        try {
            Student student1 = optional.orElseThrow(MyException::new);
-
-
-
        } catch (MyException e) {
            e.printStackTrace();
        }
