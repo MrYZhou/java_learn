@@ -15,11 +15,12 @@
         <module>aviator3</module>
         <module>poi-tl</module>
     </modules>
+
     <groupId>larry</groupId>
-    <artifactId>javademo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>javademo</name>
-    <description>javademo</description>
+    <artifactId>java_learn</artifactId>
+    <version>1.0.0</version>
+    <name>java_learn</name>
+    <description>java_learn</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -28,7 +29,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

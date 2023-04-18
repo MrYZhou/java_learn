@@ -5,12 +5,12 @@
     <parent>
         <groupId>larry</groupId>
         <artifactId>javademo</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath/>
     </parent>
     <groupId>larry</groupId>
     <artifactId>poi-tl</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>poi-tl</name>
     <description>poi-tl</description>
     <properties>
