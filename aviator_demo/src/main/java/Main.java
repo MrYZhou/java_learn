@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 @Slf4j
 public class Main {
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws Exception {
     // 表达式参数
     HashMap<String, Object> map = new HashMap<>();
     map.put("a", 1);
@@ -24,14 +24,7 @@ public class Main {
       Boolean data = (Boolean) compiledExp.execute(map);
       System.out.println(data);
     } catch (Exception e) {
-      log.error(e.toString());
+      throw new RuntimeException(e);
     }
-
-//        expression = "1 +* 2";
-//        try {
-//          AviatorEvaluator.validate(expression);
-//        } catch (Exception e) {
-//          log.error(e.toString());
-//        }
   }
 }
