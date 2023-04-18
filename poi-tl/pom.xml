@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>larry</groupId>
-        <artifactId>javademo</artifactId>
+        <artifactId>java_learn</artifactId>
         <version>1.0.0</version>
         <relativePath/>
     </parent>
