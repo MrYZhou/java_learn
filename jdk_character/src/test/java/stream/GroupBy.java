@@ -35,6 +35,14 @@ public class GroupBy {
     Map<String, List<Student>> projectMap = list.stream().filter(t ->"10".equals(t.getAge()) ).collect(Collectors.groupingBy(Student::getName));
   }
 
+  @Test
+  @DisplayName("测试生成数组")
+  public void testStudent3(){
+    System.out.println(Stream.generate(() -> 8).limit(3).map(String::valueOf).collect(Collectors.toList()));
+  }
+
+
+
 
   @Data
   @AllArgsConstructor
