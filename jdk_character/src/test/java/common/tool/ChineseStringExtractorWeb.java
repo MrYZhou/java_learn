@@ -47,7 +47,7 @@ public class ChineseStringExtractorWeb {
         }};
 
         for (String directory : list) {
-            this.soutDir(directory, hashSet);
+            this.collectStr(directory, hashSet);
         }
 
         int count = 0;
@@ -59,7 +59,7 @@ public class ChineseStringExtractorWeb {
         System.out.println("总数:" + count);
     }
 
-    private void soutDir(String directory, HashSet<String> hashSet) {
+    private void collectStr(String directory, HashSet<String> hashSet) {
         File dir = new File(directory);
         if (dir.isDirectory()) {
             Set<String> chineseStrings = findChineseStrings(dir);

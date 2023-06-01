@@ -1,175 +1,459 @@
-等待审核
-等待提交
-审核通过
-审核退回
-流程撤回
-审核终止
-已被挂起
-通过
-委托
-前加签
-后加签
-已完成
-进行中
-未处理
-未开始
-委托中
-已失效
-普通
-重要
-紧急
-发起
-转办
-无/未处理
-已读
-未读
-未绑定
-已绑定
-新建
-编辑
-提示
-切换门户
-选择用户
-全部数据
-当前组织
-已选
-清空列表
-发起流程
-功能流程
-发起表单的业务流程
-发起功能的赋予流程
-发起委托
-审批委托
-全部流程
-选择受委托人
-开始时间不能为空
-结束时间不能为空
-受委托人不能为空
-委托类型不能为空
-查看消息
-查看日程
-类型
-标题
-内容
-创建人
-参与人
-关于平台
-版本
-作者
-引迈信息技术有限公司出品
-软件开发平台-产品体验
-使用鼠标在此签名
-新增审批常用语
-编辑审批常用语
-输入常用语
-请输入常用语
-排序
-撤回审核
-撤回原因
-请输入撤回原因
-撤回附件
-审批通过
-审批意见
-请输入审批意见
-常用语
-审批附件
-审批退回
-退回节点
-转审给谁
-转审原因
-手写签名
-请选择转审给谁
-请输入转审原因
-请选择加签人员
-加签类型
-加签原因
-加签附件
-审批前
-审批后
-加签后，流程先经过加签审批人，再由我审批
-审批后加签，即表示同意该申请并增加审批人员
-导出数据
-当前页面数据
-全部页面数据
-列表数据
-请选择导出字段
-提示：系统将导出列表中选择的数据
-全选
-批量导入
-上传文件
-数据预览
-导入数据
-下载模板
-上传填好的数据表
-填写导入数据信息
-文件后缀名必须是
-或
-文件大小不超过
-最多支持导入
-条数据
-请按照数据模板的格式准备导入数据，模板中的表头名称不可更改，表头行不能删除
-保存方案
-方案选择
-请选择查询字段
-请选择
-列表显示设置
-站内信息
-仅显示未读
-全部已读
-全部
-系统
-流程
-公告
-日程
-搜索：请输入关键词
-搜索：导航菜单
-分类
-选择分类
-日期
-开始日期
-结束日期
-选择所属流程
-所属名称
-选择所属名称
-选择流程状态
-选择紧急程度
-选择时间
-选择发起人员
-扫码登录
-其他登录方式
-请输入验证码
-微信登录
-QQ登录
-企业微信登录
-钉钉登录
-飞书登录
-了解更多
-我
-聊天记录
-内部聊天
-联系人
-天前
-默认
-第三方服务绑定
-微信
-企业微信
-钉钉
-飞书
+<template>
+    <view class="dynamicModel-list-v">
+        <view class="head-warp com-dropdown">
+            <u-dropdown class="u-dropdown" ref="uDropdown" @open="openData">
+            "$t('com.haha')"
+                <u-dropdown-item :title="$t('order')">
+                    <view class="dropdown-slot-content">
+                        <view class="dropdown-slot-content-main">
+                            <u-cell-group>
+                                <u-cell-item @click="cellClick(item)" :arrow="false" :title="item.label"
+                                     v-for="(item, index) in sortOptions" :key="index" :title-style="{color: sortValue == item.value ? '#2979ff' : '#606266' }">
+                                    <u-icon v-if="sortValue == item.value" name="checkbox-mark" color="#2979ff" size="32"></u-icon>
+                                </u-cell-item>
+                            </u-cell-group>
+                        </view>
+                    </view>
+                </u-dropdown-item>
+                <u-dropdown-item :title="$t('com.filter')" >
+                    <view class="dropdown-slot-content">
+                        <view class="dropdown-slot-content-main search-main">
+                            <scroll-view scroll-y="true" style="height: 1000rpx;">
+                                <view class="u-p-l-20 u-p-r-20 search-form">
+                                <u-form :model="searchForm" ref="searchForm" :errorType="['toast']" label-position="left" label-width="150">
+                                </u-form>
+                            </view>
+                            </scroll-view>
+                            <view class="buttom-actions">
+                              <u-button class="buttom-btn" @click="reset">{{this.$t("common.reset")}}</u-button>
+                              <u-button class="buttom-btn" type="primary" @click="closeDropdown">{{$t('com.search')}}</u-button>
+                            </view>
+                            <view class="dropdown-slot-bg" @click="$refs.uDropdown.close()"></view>
+                        </view>
+                    </view>
+                </u-dropdown-item>
+            </u-dropdown>
+        </view>
+        <view class="list-warp">
+            <mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :up="upOption" top="100">
+                <view class="list">
+                    <view class="list-box">
+                        <uni-swipe-action ref="swipeAction">
+                            <uni-swipe-action-item v-for="(item, index) in list" :key="item.id" :threshold="0" :right-options="options">
+                                <view class="item" @click="goDetail(item.id,item.flowState)">
+                                    <view class="u-line-1 item-cell" v-for="(column,i) in columnList" :key="i">
+                                        <view v-if="column.jnpfKey != 'table'">
+                                            <view class="" v-if="column.jnpfKey == 'relationForm'">
+                                                <text class="listTit u-line-1">{{column.label}}:</text>
+                                                <text class="listContent"
+                                                      @click.stop="relationFormClick(item,column)"
+                                                      style="color: blue;">{{item[column.prop]}}</text>
+                                            </view>
+                                            <view v-else class="u-line-1">
+                                                <text class="listTit u-line-1">{{column.label}}:</text>
+                                                <text class="listContent">{{item[column.prop] | dynamicTreeText(column.option)}}</text>
+                                            </view>
+                                        </view>
+                                        <view class="collapse-box u-flex" v-else>
+                                            <tableCell :label="column.label" :childList="item[column.prop]" @cRelationForm="relationFormClick"
+                                                       :children="column.children" ref="tableCell" :pageLen="3"></tableCell>
+                                        </view>
+                                    </view>
+                                </view>
+                                <template v-slot:right>
+                                    <view class="right-option-box">
+                                        <view class="right-option" v-for="(it,i) in options" @click="handleClick(index)"
+                                              :key="i">
+                                            <text>{{it.text}}</text>
+                                        </view>
+                                    </view>
+                                </template>
+                            </uni-swipe-action-item>
+                        </uni-swipe-action>
+                    </view>
+                </view>
+            </mescroll-uni>
+        </view>
+        <view class="com-addBtn" @click="addPage()" >
+            <u-icon name="plus" size="60" color="#fff" />
+        </view>
+    </view>
+</template>
+<script>
+    import resources from '@/libs/resources.js'
+    import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
+    import tableCell from '../dynamicModel/components/tableCell.vue'
+    import {
+        getDictionaryDataSelector,
+        getDataInterfaceRes,
+        getDefaultCurrentValueUserIdAsync,
+        getDefaultCurrentValueDepartmentIdAsync
+    } from '@/api/common'
+    import request from '@/utils/request'
+    export default {
+        mixins: [MescrollMixin],
+        components: {
+            tableCell
+        },
+        data() {
+            return {
+                sortValue: '',
+                searchForm: {
+                },
+                downOption: {
+                    use: true,
+                    auto: false
+                },
+                dataOptions:{
+                },
+                upOption: {
+                    page: {
+                        num: 0,
+                        size: 20,
+                        time: null,
+                    },
+                    empty: {
+                        use: true,
+                        icon: resources.message.nodata,
+                        tip: this.$t("common.noData"),
+                        fixed: true,
+                        top: "300rpx",
+                        zIndex: 5,
+                    },
+                    textNoMore: '没有{{this.$t("common.moreBtn")}}数据',
+                    toTop: {
+                        bottom: 250
+                    }
+                },
+                list: [],
+                appColumnList:[{"clearable":true,"jnpfKey":"comInput","label":"申请人","sortable":false,"align":"left","prefix-icon":"","show-password":false,"__config__":{"formId":101,"visibility":["pc","app"],"jnpfKey":"comInput","noShow":false,"dragDisabled":false,"className":[],"label":"申请人","trigger":"blur","showLabel":true,"required":false,"tableName":"test_position","renderKey":1685501500873,"layout":"colFormItem","tagIcon":"icon-ym icon-ym-generator-input","unique":false,"tag":"el-input","regList":[],"span":24},"readonly":false,"prop":"applys","__vModel__":"applys","style":{"width":"100%"},"disabled":false,"placeholder":"请输入","show-word-limit":false,"__slot__":{"prepend":"","append":""},"suffix-icon":"","on":{"change":"({ data, formData, setFormData, setShowOrHide, setRequired, setDisabled, request }) => {\n    // 在此编写代码\n    \n}","blur":"({ data, formData, setFormData, setShowOrHide, setRequired, setDisabled, request }) => {\n    // 在此编写代码\n    \n}"}},{"clearable":true,"jnpfKey":"comInput","label":"所属部门","sortable":false,"align":"left","prefix-icon":"","show-password":false,"__config__":{"formId":102,"visibility":["pc","app"],"jnpfKey":"comInput","noShow":false,"dragDisabled":false,"className":[],"label":"所属部门","trigger":"blur","showLabel":true,"required":false,"tableName":"test_position","renderKey":1685501503788,"layout":"colFormItem","tagIcon":"icon-ym icon-ym-generator-input","unique":false,"tag":"el-input","regList":[],"span":24},"readonly":false,"prop":"depName","__vModel__":"depName","style":{"width":"100%"},"disabled":false,"placeholder":"请输入","show-word-limit":false,"__slot__":{"prepend":"","append":""},"suffix-icon":"","on":{"change":"({ data, formData, setFormData, setShowOrHide, setRequired, setDisabled, request }) => {\n    // 在此编写代码\n    \n}","blur":"({ data, formData, setFormData, setShowOrHide, setRequired, setDisabled, request }) => {\n    // 在此编写代码\n    \n}"}},{"clearable":true,"jnpfKey":"comInput","label":"工作性质","sortable":false,"align":"left","prefix-icon":"","show-password":false,"__config__":{"formId":103,"visibility":["pc","app"],"jnpfKey":"comInput","noShow":false,"dragDisabled":false,"className":[],"label":"工作性质","trigger":"blur","showLabel":true,"required":false,"tableName":"test_position","renderKey":1685501509882,"layout":"colFormItem","tagIcon":"icon-ym icon-ym-generator-input","unique":false,"tag":"el-input","regList":[],"span":24},"readonly":false,"prop":"worknature","__vModel__":"worknature","style":{"width":"100%"},"disabled":false,"placeholder":"请输入","show-word-limit":false,"__slot__":{"prepend":"","append":""},"suffix-icon":"","on":{"change":"({ data, formData, setFormData, setShowOrHide, setRequired, setDisabled, request }) => {\n    // 在此编写代码\n    \n}","blur":"({ data, formData, setFormData, setShowOrHide, setRequired, setDisabled, request }) => {\n    // 在此编写代码\n    \n}"}}],
+                listQuery: {
+                    moduleId:'433547625472488453',
+                    sort: 'desc',
+                    sidx: '',
+                    keyword: '',
+                    json: ''
+                },
+                options: [
+                    {
+                        text: this.$t("common.delBtn"),
+                        style: {
+                            backgroundColor: '#dd524d'
+                        }
+                    },
+                ],
+                sortOptions:[
+                ],
+                ableAll:{
+                },
+                menuId:'',
+                columnList:[],
+                isTree:false,
+                type:'${context.type}',
+                key:new Date(),
+                dataValue:{},
+                userInfo:{},
+                firstInitSearchData:false
+            }
+        },
+        onLoad(e){
+            this.userInfo = uni.getStorageSync('userInfo') || {}
+            this.menuId = e.menuId
+            uni.$on('refresh', () => {
+                this.list = [];
+                this.mescroll.resetUpScroll();
+            })
+            this.dataAll()
+            this.getColumnList()
+            this.dataValue = JSON.parse(JSON.stringify(this.searchForm))
+        },
+        onUnload() {
+            uni.$off('refresh')
+        },
+        methods:{
+            dataAll(){
+            },
+            openData(e){
+                if(e==1){
+                    // this.reset()
+                }
+            },
+            //初始化{{this.$t("common.search")}}的默认数据
+            async initSearchData() {
+            },
+            relationFormClick(item,column) {
+                let vModel = column.vModel?column.vModel+"_id":column.__vModel__
+                let id = item[vModel]
+                if(vModel){
+                    let [attr,attr1]=vModel.split("_jnpf_")
+                    if(attr&&attr1){
+                        attr = attr.replace('jnpf_','')
+                        id = item[attr]&&item[attr][attr1]
+                    }
+                }
+                let modelId = column.modelId
+                if (!id || !modelId) return
+                let config = {
+                    modelId: modelId,
+                    id: id,
+                    formTitle: '详情',
+                    noShowBtn: 1
+                }
+                this.$nextTick(() => {
+                    const url ='/pages/apply/dynamicModel/detail?config=' + this.base64.encode(JSON.stringify(config),"UTF-8")
+                    uni.navigateTo({
+                        url: url
+                    })
+                })
+            },
+            async upCallback(page) {
+                if(!this.firstInitSearchData) {
+                  await this.initSearchData()
+                  this.firstInitSearchData = true
+                }
+                const query = {
+                    currentPage: page.num,
+                    pageSize: page.size,
+                    menuId : this.menuId,
+                    ...this.listQuery,
+                    ...this.searchForm,
+                    dataType:0,
+                }
+                request({
+                    url: '/api/system/Test_position/getList',
+                    method: 'post',
+                    data: query,
+                }).then(res => {
+                    let _list = this.dataList(res.data);
+                    this.mescroll.endSuccess(_list.length);
+                    if (page.num == 1) this.list = [];
+                    const list = _list.map(o => ({
+                        show: false,
+                        ...o
+                    }));
+                    this.list = this.list.concat(_list);
+                }).catch(() => {
+                    this.mescroll.endErr();
+                })
+            },
+            handleClick(index, index1) {
+                const item = this.list[index]
+                request({
+                    url: '/api/system/Test_position/' + item.id,
+                    method: 'delete'
+                }).then(res => {
+                    uni.showToast({
+                        title: res.msg,
+                        complete: () => {
+                            this.$u.toast(res.msg)
+                            this.mescroll.resetUpScroll()
+                        }
+                    })
+                })
+            },
+            open(index) {
+                this.list[index].show = true;
+                this.list.map((val, idx) => {
+                    if (index != idx) this.list[idx].show = false;
+                })
+            },
+            search() {
+                if (this.isPreview == '1') return
+                this.searchTimer && clearTimeout(this.searchTimer)
+                this.searchTimer = setTimeout(() => {
+                    this.list = [];
+                    this.mescroll.resetUpScroll();
+                }, 300)
+            },
+            goDetail(id, status) {
+                let btnType = ''
+                let btnList = []
+                btnList.push('btn_edit')
+                if(btnList.length==0) return
+                this.jumPage(id, status,btnList)
+            },
+            addPage() {
+                this.jumPage()
+            },
+            getColumnList() {
+                let columnPermissionList = []
+                let _appColumnList =this.appColumnList
+                for (let i = 0; i < _appColumnList.length; i++) {
+                    columnPermissionList.push(_appColumnList[i])
+                }
+                this.columnList = this.transformColumnList(columnPermissionList, this.dataOptions)
+            },
+            transformColumnList(columnList, dataOptions) {
+                let list = []
+                for (let i = 0; i < columnList.length; i++) {
+                    let e = columnList[i]
+                    let columProp = e.prop
+                    let label = e.label
+                    let option = null
+                    let options = columProp + "Options"
+                    if (!columProp.includes('-')) {
+                        if (dataOptions[options]) {
+                            option = dataOptions[options]
+                        }else{
+                            columProp = columProp+"_name"
+                        }
+                        if(label.length>4){
+                            label = label.substring(0, 4)
+                        }
+                        e.label = label
+                        e.prop = columProp
+                        e.option = option
+                        list.push(e)
+                    } else {
+                        e.vModel = columProp.split('-')[1]
+                        e.childLabel = e.label.split('-')[1]
+                        options = e.vModel + "Options"
+                        let prop = columProp.split('-')[0]
+                        let label = e.label.split('-')[0]
+                        let newItem = {
+                            align: "center",
+                            jnpfKey: "table",
+                            prop,
+                            label,
+                            children: []
+                        }
+                        if (!list.some(o => o.prop === prop)) list.push(newItem)
+                        for (let i = 0; i < list.length; i++) {
+                            if (list[i].prop === prop) {
+                                if (dataOptions[prop][options]) {
+                                    option = dataOptions[prop][options]
+                                }
+                                e.option = option
+                                list[i].children.push(e)
+                                break
+                            }
+                        }
+                    }
+                }
+                return list
+            },
+            jumPage(id, status, btnList) {
+                let idVal = id ? "&id=" + id : ''
+                let idList = []
+                for(let i=0;i<this.list.length;i++){
+                    idList.push(this.list[i].id)
+                }
+                let idListVal = "&idList="+idList
+                if (!id && !status){
+                    uni.navigateTo({
+                        url: "./form?menuId=" + this.menuId + "&jurisdictionType=btn_add"
+                    })
+                } else if(btnList.includes('btn_detail')){
+                    uni.navigateTo({
+                        url: "./detail?menuId=" + this.menuId + "&btnList=" + btnList + idVal+idListVal
+                    })
+                } else if(btnList.includes('btn_edit')){
+                    uni.navigateTo({
+                        url: "./form?menuId=" + this.menuId + "&jurisdictionType=btn_edit&btnList=" + btnList + idVal+idListVal
+                    })
+                }
+            },
+            cellClick(item) {
+                if (this.sortValue === item.value) return
+                this.listQuery.sort = item.sort
+                this.listQuery.sidx = item.sidx
+                this.sortValue = item.value
+                this.$refs.uDropdown.close();
+                this.$nextTick(() => {
+                    this.list = [];
+                    this.mescroll.resetUpScroll();
+                })
+            },
+            reset() {
+                this.searchForm = JSON.parse(JSON.stringify(this.dataValue))
+                this.key = new Date()
+            },
+            closeDropdown() {
+                this.$refs.uDropdown.close();
+                this.$nextTick(() => {
+                    this.list = [];
+                    this.mescroll.resetUpScroll();
+                })
+            },
+            dataList(data){
+                let _list =[]
+                if(this.isTree){
+                    data = this.treeToList(data)
+                }
+                for(let i=0;i<data.list.length;i++){
+                    let _data = data.list[i]
+                    _list.push(_data)
+                }
+                return _list;
+            },
+            treeToList(data) {
+                let treeList = []
+                if(this.type == '3'){
+                    for(let i=0;i<data.length;i++){
+                        if(data[i].children){
+                            treeList = treeList.concat(data[i].children);
+                        }
+                    }
+                    data = treeList
+                }else{
+                    for(let i=0;i<data.list.length;i++){
+                        treeList = treeList.concat(data.list[i]);
+                    }
+                    data = treeList
+                }
+                let listAll = this.treeToArray(data)
+                let _list = {
+                    list: listAll
+                }
+                return _list;
+            },
+            treeToArray(data) {
+                let options = data
+                let list = []
+                const loop = (options) => {
+                    for (let i = 0; i < options.length; i++) {
+                        const item = options[i]
+                        list.push(item)
+                        if (item.children && Array.isArray(item.children)) {
+                            loop(item.children)
+                        }
+                    }
+                }
+                loop(options)
+                return list
+            },
+        },
+    }
+</script>
 
-审核驳回
-取消
-详情
-删除
-导出
-查询
-保存
-重置
-提交
-折叠全部
-隐藏部分
-展开全部
-下载导入模板
-上传填写好的文件
-下载导入模板，填写数据
-加载更多
-取消
+<style lang="scss">
+    page {
+        background-color: #f0f2f6;
+        height: 100%;
+        /* #ifdef MP-ALIPAY */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        /* #endif */
+    }
+    .right-option-box {
+        display: flex;
+        width: max-content;
+
+        .right-option {
+            width: 144rpx;
+            height: 100%;
+            font-size: 16px;
+            color: #fff;
+            background-color: #dd524d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .more-option {
+            background-color: #1890ff;
+        }
+    }
+</style>
