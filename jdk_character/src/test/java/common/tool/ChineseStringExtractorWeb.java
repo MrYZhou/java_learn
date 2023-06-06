@@ -1,6 +1,7 @@
 package tool;
 
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,12 +30,13 @@ public class ChineseStringExtractorWeb {
     }};
 
     @Test
+    @DisplayName("输出前端项目中的文字")
     public void test() {
         HashSet<String> hashSet = new HashSet<>();
         ArrayList<String> list = new ArrayList<String>() {{
-            add("E:\\Code\\Git\\develop\\java\\overtime\\jnpf-resources\\TemplateCode\\TemplateCode3\\html");
-            add("E:\\Code\\Git\\develop\\java\\overtime\\jnpf-resources\\TemplateCode\\TemplateCode2\\html");
-            add("E:\\Code\\Git\\develop\\java\\overtime\\jnpf-resources\\TemplateCode\\macro");
+            add("D:\\Users\\JNPF\\Desktop\\3.4.6-i18n\\3.4.6-i18n-web\\src\\components");
+//            add("E:\\Code\\Git\\develop\\java\\overtime\\jnpf-resources\\TemplateCode\\TemplateCode2\\html");
+//            add("E:\\Code\\Git\\develop\\java\\overtime\\jnpf-resources\\TemplateCode\\macro");
 
 //            add("D:\\Users\\JNPF\\Desktop\\3.4.6-i18n\\3.4.6-i18n-web\\src\\components");
 //            add("D:\\Users\\JNPF\\Desktop\\3.4.6-i18n\\3.4.6-i18n-web\\src\\views");
@@ -65,7 +67,8 @@ public class ChineseStringExtractorWeb {
             Set<String> chineseStrings = findChineseStrings(dir);
             // 输出去重后的中文字符串
             for (String str : chineseStrings) {
-                hashSet.add(str.replace(">", "").replace("<", ""));
+                if (str.contains("{")) continue;
+                hashSet.add(str.replace(">", "").replace("<", "").replace("'", ""));
             }
 
         } else {
@@ -101,6 +104,7 @@ public class ChineseStringExtractorWeb {
             if (file.isDirectory()) {
                 chineseStrings.addAll(findChineseStrings(file)); // 递归遍历子目录
             } else if (file.isFile()) {
+                if (file.getName().contains(".js")) continue;
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
@@ -111,11 +115,18 @@ public class ChineseStringExtractorWeb {
                         while (matcher.find()) {
                             chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
                         }
-                        pattern = Pattern.compile(">[\u4e00-\u9fa5].*<");
+                        pattern = Pattern.compile(">[\u4e00-\u9fa5]+<");
                         matcher = pattern.matcher(line);
                         while (matcher.find()) {
                             chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
                         }
+
+                        pattern = Pattern.compile("'[\u4e00-\u9fa5]+'");
+                        matcher = pattern.matcher(line);
+                        while (matcher.find()) {
+                            chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
+                        }
+
                     }
                 } catch (IOException e) {
                     System.err.println(e.getMessage());
