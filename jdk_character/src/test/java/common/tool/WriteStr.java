@@ -3,9 +3,12 @@ package tool;
 import org.apache.commons.io.FileUtils;
 import org.testng.annotations.Test;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -360,4 +363,69 @@ public class WriteStr {
             FileUtils.writeStringToFile(file, content, "UTF-8");
         }
     }
+
+    /**
+     * 获取文件中的中文
+     *
+     * @param args
+     */
+    @Test
+    public void testrepstr() {
+        String filePath = "D:\\Users\\JNPF\\Downloads\\i18-dev1685957692914\\html\\web";
+
+        HashSet<String> chineseStrings = new HashSet<>();
+        this.collectStr(filePath, chineseStrings);
+        chineseStrings.forEach(System.out::println);
+    }
+
+    private void collectStr(String directory, HashSet<String> chineseStrings) {
+        File dir = new File(directory);
+        if (dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            if (files == null) {
+                System.err.println("Error reading files in " + dir.getAbsolutePath());
+                return;
+            }
+            files = files[0].listFiles();
+
+            for (File file : files) {
+                findFileChinese(file, chineseStrings);
+            }
+
+        } else {
+            findFileChinese(dir, chineseStrings);
+
+        }
+    }
+
+    private void findFileChinese(File file, HashSet<String> chineseStrings) {
+        if (file.isDirectory()) return;
+        Pattern pattern;
+        Matcher matcher;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                pattern = Pattern.compile("\"[\u4e00-\u9fa5]+\"");
+                matcher = pattern.matcher(line);
+                while (matcher.find()) {
+                    chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
+                }
+
+                pattern = Pattern.compile("'[\u4e00-\u9fa5]+'");
+                matcher = pattern.matcher(line);
+                while (matcher.find()) {
+                    chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
+                }
+
+                pattern = Pattern.compile(">[\u4e00-\u9fa5].*<");
+                matcher = pattern.matcher(line);
+                while (matcher.find()) {
+                    chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
+                }
+            }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
 }
