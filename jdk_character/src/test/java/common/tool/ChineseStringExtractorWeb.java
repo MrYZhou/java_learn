@@ -98,7 +98,7 @@ public class ChineseStringExtractorWeb {
             return chineseStrings;
         }
 
-        Pattern pattern = Pattern.compile("\"[\u4e00-\u9fa5]+\""); // 匹配中文字符
+        Pattern pattern = Pattern.compile("\"[一-龥]+\""); // 匹配中文字符
         Matcher matcher;
         for (File file : files) {
             if (file.isDirectory()) {
@@ -115,13 +115,13 @@ public class ChineseStringExtractorWeb {
                         while (matcher.find()) {
                             chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
                         }
-                        pattern = Pattern.compile(">[\u4e00-\u9fa5]+<");
+                        pattern = Pattern.compile(">[一-龥]+<");
                         matcher = pattern.matcher(line);
                         while (matcher.find()) {
                             chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
                         }
 
-                        pattern = Pattern.compile("'[\u4e00-\u9fa5]+'");
+                        pattern = Pattern.compile("'[一-龥]+'");
                         matcher = pattern.matcher(line);
                         while (matcher.find()) {
                             chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
