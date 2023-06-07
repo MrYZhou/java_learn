@@ -1,6 +1,7 @@
 package tool;
 
-import org.testng.annotations.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,8 +11,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ChineseStringExtractor {
-    List<String> breaklist = new ArrayList() {{
+public class ChineseStringExtractorTest {
+    List<String> breaklist = new ArrayList<String>() {{
         add(".git");
         add(".idea");
         add("jnpf-extend");
@@ -19,7 +20,7 @@ public class ChineseStringExtractor {
         add("util");
     }};
 
-    List<String> breakStrlist = new ArrayList() {{
+    List<String> breakStrlist = new ArrayList<String>() {{
         add("@ApiOperation");
         add("@Api");
         add("log.");
@@ -30,7 +31,7 @@ public class ChineseStringExtractor {
 
     @Test
     public void test() {
-        String directory = "D:\\Users\\JNPF\\Desktop\\project\\java\\java_learn\\jdk_character\\src\\test\\java\\common";
+        String directory;
         directory = "D:\\Users\\JNPF\\Desktop\\3.4.6-i18n\\3.4.6-i18n-java-boot";
         File dir = new File(directory);
 
@@ -75,7 +76,7 @@ public class ChineseStringExtractor {
             return chineseStrings;
         }
 
-        Pattern pattern = Pattern.compile("\"[\u4e00-\u9fa5]+\""); // 匹配中文字符
+        Pattern pattern = Pattern.compile("\"[一-龥]+\""); // 匹配中文字符
 
         Matcher matcher;
 

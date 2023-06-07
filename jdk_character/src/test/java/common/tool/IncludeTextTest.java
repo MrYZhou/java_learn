@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 
-public class IncludeText {
+public class IncludeTextTest {
 
     @Test
     @DisplayName("测试两个文件差异,显示出第一个文件没有的字")
@@ -24,7 +24,6 @@ public class IncludeText {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-//        set.forEach(k-> System.out.println(k));
 
         File cc2 = new File("D:\\Users\\JNPF\\Desktop\\project\\java\\java_learn\\jdk_character\\src\\test\\java\\common\\tool\\tem.txt");
 

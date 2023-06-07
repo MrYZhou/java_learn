@@ -1,14 +1,14 @@
 import com.googlecode.aviator.AviatorEvaluator;
 import com.googlecode.aviator.Expression;
 import org.junit.jupiter.api.DisplayName;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-public class Main {
+public class MainTest {
     @Test
     @DisplayName("aa")
-    public void test1() throws Exception {
+    public void test1() {
         // 表达式参数
         HashMap<String, Object> map = new HashMap<>();
         map.put("a", 1);
