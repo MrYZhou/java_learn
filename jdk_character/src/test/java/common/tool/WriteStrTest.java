@@ -8,9 +8,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,15 +19,6 @@ public class WriteStrTest {
     @Test
     @DisplayName("从文件读取成字符串")
     public void wewq() throws IOException {
-        String dirPath = "D:/Users/JNPF/Desktop/project/java/java_learn/jdk_character/src/test/java/common/tool/com.txt";
-        File dir = new File(dirPath);
-        String content = FileUtils.readFileToString(dir, StandardCharsets.UTF_8);
-        System.out.println(content);
-    }
-
-    @Test
-    @DisplayName("直接获取字符串中的中文")
-    public void wewq2() throws IOException {
         String dirPath = "D:/Users/JNPF/Desktop/project/java/java_learn/jdk_character/src/test/java/common/tool/com.txt";
         File dir = new File(dirPath);
         String content = FileUtils.readFileToString(dir, "utf8");
@@ -43,76 +35,55 @@ public class WriteStrTest {
 
     }
 
-    public void replaceStr(File file, Map<String, String> source, HashSet<String> hashSet) throws IOException {
+    @Test
+    @DisplayName("包裹国际化字符")
+    public void wrapTag() throws IOException {
+        String leftWrap = "{{this.$t(\"";
+        String rightWrap = "\")}}";
+        String dirPath = "D:/Users/JNPF/Desktop/project/java/java_learn/jdk_character/src/test/java/common/tool/com.txt";
+
+        Map<String, String> source = new HashMap<>();
+        String str1 = "提示";
+        String str2 = "没有更多数据";
+        source.put(str1, leftWrap + "common.tip" + rightWrap);
+        source.put(str2, leftWrap + "common.search2" + rightWrap);
+
+        File dir = new File(dirPath);
+        if (dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            for (File file : Objects.requireNonNull(files)) {
+                this.replaceStr(file, source);
+            }
+        } else {
+            this.replaceStr(dir, source);
+        }
+    }
+
+    public void replaceStr(File file, Map<String, String> source) throws IOException {
         if (file.isDirectory()) {
-            for (File subFile : file.listFiles()) {
-                replaceStr(subFile, source, hashSet);
+            for (File subFile : Objects.requireNonNull(file.listFiles())) {
+                replaceStr(subFile, source);
             }
         } else {
             String content = FileUtils.readFileToString(file, "UTF-8");
-//            content = content.replaceAll("\\{\\{'上一条'}}", "");
-//            content = content.replaceAll("\\{\\{'下一条'}}", "");
-            // 针对js文件则直接替换
-            if (file.getName().contains(".js")) {
-                return;
-            }
-            // 针对vue文件,切割布局和script内容，由于国际化包裹方式的不同
-            if (file.getName().contains(".vue")) {
+            // 切割布局和script内容，由于国际化包裹方式的不同
 
-                String[] tem = content.split("<script>");
-                if (tem == null || tem.length == 0) {
-                    return;
-                }
+            String html = content.split("<script>")[0];
+            String scriptStr = content.split("<script>" + "<script>")[1];
 
-                String html = tem[0];
-                String scriptStr = "<script>" + tem[1];
-                String leftWrap = "{{$t('";
-                String rightWrap = "')}}";
-
-                for (String s : hashSet) {
-                    String realKey = s.replace("'", "")
-                            .replace(">", "")
-                            .replace("<", "")
-                            .replace("\"", "");
-                    String value = source.get(realKey);
-                    if (value == null) continue;
-
-                    if (!s.contains("<")) {
-
-                        String newStr = "\"" + leftWrap + value + rightWrap + "\"";
-                        newStr = newStr.replace("{{", "").replace("}}", "");
-                        html = html.replace(s, newStr);
-
-                    } else {
-                        html = html.replace(s, ">" + leftWrap + value + rightWrap + "<");
-                    }
-
-                }
-
-                leftWrap = "this.$t('";
-                rightWrap = "')";
-                for (String s : hashSet) {
-                    String realKey = s.replace("'", "")
-                            .replace(">", "")
-                            .replace("<", "")
-                            .replace("\"", "");
-                    String value = source.get(realKey);
-                    if (value == null) continue;
-                    scriptStr = scriptStr.replace(s, leftWrap + value + rightWrap);
-                    scriptStr = scriptStr.replace("'{{", "");
-                    scriptStr = scriptStr.replace("}}'", "");
-                    scriptStr = scriptStr.replace("\"{{", "");
-                    scriptStr = scriptStr.replace("}}\"", "");
-                }
-                content = html + scriptStr;
-                content = content.replaceAll("<u-dropdown-item title", "<u-dropdown-item :title");
-                content = content.replaceAll("<el-tooltip content", "<el-tooltip :content");
-                content = content.replaceAll("placeholder=", ":placeholder=");
-
-                FileUtils.writeStringToFile(file, content, "UTF-8");
+            for (Map.Entry<String, String> entry : source.entrySet()) {
+                String oldStr = entry.getKey();
+                String newStr = entry.getValue();
+                html = html.replace(oldStr, newStr);
             }
 
-
+            for (Map.Entry<String, String> entry : source.entrySet()) {
+                String oldStr = entry.getKey();
+                String newStr = entry.getValue();
+                scriptStr = scriptStr.replace(oldStr, newStr);
+            }
+            content = html + scriptStr;
+            FileUtils.writeStringToFile(file, content, "UTF-8");
         }
     }
 
@@ -137,8 +108,10 @@ public class WriteStrTest {
             }
             files = files[0].listFiles();
 
-            for (File file : files) {
-                findFileChinese(file, chineseStrings);
+            if (files != null) {
+                for (File file : files) {
+                    findFileChinese(file, chineseStrings);
+                }
             }
 
         } else {
@@ -146,7 +119,6 @@ public class WriteStrTest {
 
         }
     }
-
 
     private void findFileChinese(File file, HashSet<String> chineseStrings) {
         if (file.isDirectory()) return;
