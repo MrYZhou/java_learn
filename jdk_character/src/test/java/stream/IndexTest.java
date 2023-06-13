@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class index {
+public class IndexTest {
     static ArrayList<Student> list = new ArrayList<Student>() {{
         add(new Student("张三", 10));
         add(new Student("李四", 10));
