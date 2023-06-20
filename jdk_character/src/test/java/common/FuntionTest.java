@@ -34,9 +34,6 @@ public class FuntionTest {
         return result;
     }
 
-    public static int calculateBirthYear(Student student, Function<Integer, Integer> ageToBirthYear) {
-        return ageToBirthYear.apply(student.getAge());
-    }
 
     /**
      * Predicate接口是Java中的一个函数式接口，它定义了一个名为test的抽象方法，该方法接受一个参数并返回一个布尔值。
@@ -78,6 +75,10 @@ public class FuntionTest {
         student.setAge(25);
         int birthYear = calculateBirthYear(student, age -> LocalDate.now().getYear() - age);
         System.out.println(student.getName() + " was born in " + birthYear);
+    }
+
+    public static int calculateBirthYear(Student student, Function<Integer, Integer> ageToBirthYear) {
+        return ageToBirthYear.apply(student.getAge());
     }
 
     @Data
