@@ -150,4 +150,24 @@ public class WriteStrTest {
         }
     }
 
+    @Test
+    public void test() {
+        String content = """
+                    class="table" :hasNO="false" has-c>
+                          <el-table-column type="index" width="50" label="序号" align="center" />
+                          <el-table-column label="字段" prop="__vModel__" align="left">
+                            <template slot-scope="scope">
+                              {{scope.row.__config__.label?scope.row.__vModel__+'('+scope.row.__config__.label+')':scope.row.__vModel__}}
+                            </template
+                """;
+        String[] tagList = new String[]{
+                "title", "placeholder", "description", "content"
+        };
+        for (String tag : tagList) {
+
+        }
+
+
+        System.out.println(content);
+    }
 }
