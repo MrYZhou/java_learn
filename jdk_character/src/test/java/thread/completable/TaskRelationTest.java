@@ -19,7 +19,7 @@ public class TaskRelationTest {
         thenRunAsync();
     }
     public static void thenRunAsync() {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<Void> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
             try {
@@ -39,7 +39,7 @@ public class TaskRelationTest {
     }
 
     public static void thenAcceptAsync() {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<Void> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
             try {
@@ -58,7 +58,7 @@ public class TaskRelationTest {
 
     }
     public static void thenApplyAsync() {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<Integer> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
             try {
@@ -95,7 +95,7 @@ public class TaskRelationTest {
     }
 
     public static void handleAsync() {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<Integer> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
             try {

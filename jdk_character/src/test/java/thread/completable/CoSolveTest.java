@@ -1,8 +1,9 @@
 package thread.completable;
 
 
-import java.util.concurrent.*;
-import java.util.function.BiConsumer;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 多任务合并执行
@@ -24,7 +25,7 @@ public class CoSolveTest {
 
 
     public static void thenCombineAsync()  {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "hello", executorService);
 
@@ -39,7 +40,7 @@ public class CoSolveTest {
     }
 
     public static void thenAcceptBothAsync()  {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "hello", executorService);
 
@@ -51,7 +52,7 @@ public class CoSolveTest {
     }
 
     public static void runAfterBothAsync()  {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "hello", executorService);
 
@@ -63,7 +64,7 @@ public class CoSolveTest {
     }
 
     public static void applyToEitherAsync()  {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "hello", executorService);
 
@@ -76,7 +77,7 @@ public class CoSolveTest {
     }
 
     public static void acceptEitherAsync()  {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "hello", executorService);
 
@@ -88,7 +89,7 @@ public class CoSolveTest {
     }
 
     public static void runAfterEitherAsync()  {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "hello", executorService);
 

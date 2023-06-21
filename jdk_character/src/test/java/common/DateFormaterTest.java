@@ -21,7 +21,7 @@ public class DateFormaterTest {
 
   public static void main(String[] args) {
     // 多线程调用
-    ExecutorService executorService = Executors.newFixedThreadPool(100);
+    ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     CompletableFuture.runAsync(
         () -> {
