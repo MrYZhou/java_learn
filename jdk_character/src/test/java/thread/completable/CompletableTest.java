@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.*;
-import java.util.function.BiConsumer;
 
 public class CompletableTest {
 
@@ -21,9 +20,7 @@ public class CompletableTest {
                         },
                         executorService);
             }
-
         }
-
     }
 
     @Test
@@ -50,13 +47,7 @@ public class CompletableTest {
             integer = integerCompletableFuture.get();
 
             // 执行回调
-            integerCompletableFuture.whenCompleteAsync(
-                    new BiConsumer<Integer, Throwable>() {
-                        @Override
-                        public void accept(Integer integer, Throwable throwable) {
-                            System.out.println(integer + 123);
-                        }
-                    });
+            integerCompletableFuture.whenCompleteAsync((integer1, throwable) -> System.out.println(integer1 + 123));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
