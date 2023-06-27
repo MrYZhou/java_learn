@@ -151,23 +151,31 @@ public class WriteStrTest {
     }
 
     @Test
+    @DisplayName("替换冒号")
     public void test() {
+        Pattern pattern;
+        Matcher matcher;
         String content = """
-                    class="table" :hasNO="false" has-c>
-                          <el-table-column type="index" width="50" label="序号" align="center" />
-                          <el-table-column label="字段" prop="__vModel__" align="left">
-                            <template slot-scope="scope">
-                              {{scope.row.__config__.label?scope.row.__vModel__+'('+scope.row.__config__.label+')':scope.row.__vModel__}}
-                            </template
+                     <el-form-item :label="数据选择">
+                             <el-radio-group v-model="type">
+                               <el-radio :label="0">当前页面数据</el-radio>
+                               <el-radio :label="1">全部页面数据</e
+                      <el-form-item :label="导出字段">
+                             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
+                               @change="handleCheckAllChange">全选</el-checkbox>
+                             <el-checkbox-group v-model="columns" @change="handleCheckedChange">
+                               <el-checkbox v-for="item in columnList" :label="item.prop" :key="item.prop">
+                                 {{item.label}}          
                 """;
         String[] tagList = new String[]{
                 "title", "placeholder", "description", "content"
         };
-        for (String tag : tagList) {
-
+//        pattern = Pattern.compile(":label=\"([一-龥]+)\"");
+        pattern = Pattern.compile(":label=\"([一-龥]+)\"");
+        matcher = pattern.matcher(content);
+        while (matcher.find()) {
+            content = content.replace(matcher.group(1), "'" + matcher.group(1) + "'");
         }
-
-
         System.out.println(content);
     }
 }

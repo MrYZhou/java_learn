@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,44 @@ public class JsonTest {
             System.out.println(jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static String getJsonValue(String jsonStr, String keyStr) {
+        JSONObject jsonObject = JSON.parseObject(jsonStr);
+        String[] keys = keyStr.split("\\.");
+        JSONObject temp = jsonObject;
+        for (int i = 0; i < keys.length - 1; i++) {
+            temp = temp.getJSONObject(keys[i]);
+        }
+        return temp.getString(keys[keys.length - 1]);
+    }
+
+    @Test
+    public void test3() {
+        String jsonStr = "{\"a\":{\"b\":\"1\"}}";
+        String keyStr = "a.b";
+        String value = this.getChineseByCode(jsonStr, keyStr);
+
+        System.out.println(value);
+
+    }
+
+    private String getChineseByCode(String jsonStr, String findKey) {
+        try {
+            JSONObject jsonObject = JSON.parseObject(jsonStr);
+            String[] list = findKey.split("\\.");
+            JSONObject temp = (JSONObject) jsonObject.get(list[0]);
+            for (int i = 1; i < list.length; i++) {
+                Object res = temp.get(list[i]);
+                if (i == list.length - 1) {
+                    return res.toString();
+                }
+                temp = (JSONObject) res;
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
         }
     }
 
