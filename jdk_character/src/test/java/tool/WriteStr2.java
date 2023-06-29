@@ -68,5 +68,23 @@ public class WriteStr2 {
         }
     }
 
+    @Test
+    @DisplayName("替换")
+    public void testrepstr4() {
+
+        String kk = """
+                                
+                    <el-form-item label="数据选择">
+                """;
+
+        pattern = Pattern.compile("<el-form-item label=\"(.*)\"");
+
+        matcher = pattern.matcher(kk);
+
+        while (matcher.find()) {
+            System.out.println(matcher.group(1));
+        }
+    }
+
 
 }
