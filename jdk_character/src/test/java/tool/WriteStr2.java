@@ -1,6 +1,9 @@
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,9 +51,18 @@ public class WriteStr2 {
     @Test
     @DisplayName("替换$t的包裹")
     public void testrepstr2() {
-        String input = "label=\"#!$t('msg.nodelegatedTip')!#\"";
-        String output = input.replaceAll("label=\"#!(.*?)!#\"", ":label=\"$1\"");
-        System.out.println(output);  // 输出：label="$t('msg.nodelegatedTip')"
+        String input = """
+                 <el-tab-pane label="$t('profile.menu-bindSet')" name="justAuth" v-if="useSocials">
+                                            <JustAuth ref="justAuth" v-if="visible.justAuth" />
+                                          </el-tab-pane>
+                                          <el-tab-pane label="啊飒飒" name="authorize" class="el-tab-pane-authorize">
+                                            <Authorize ref="authorize" v-if="visible.authorize" />
+                                          </el-tab-pane>
+                                          <el-tab-pane label="$t('route.system-log')" name="sysLog">
+                                            <SysLog ref="sysLog" v-if="visible.sysLog" /
+                """;
+        input = input.replaceAll("label=\"([^\\u4e00-\\u9fa5]*?)\"" , ":label=\"$1\"" );
+        System.out.println(input);
     }
 
     @Test
@@ -77,13 +89,21 @@ public class WriteStr2 {
                     <el-form-item label="数据选择">
                 """;
 
-        pattern = Pattern.compile("<el-form-item label=\"(.*)\"");
+        pattern = Pattern.compile("<el-form-item label=\"(.*)\"" );
 
         matcher = pattern.matcher(kk);
 
         while (matcher.find()) {
             System.out.println(matcher.group(1));
         }
+    }
+
+    @Test
+    @DisplayName("替换" )
+    public void testrepstr5() throws IOException {
+        File file = new File("D:/Users/JNPF/Desktop/qz/qz-web/src/views/basic/profile/index.vue" );
+        String content = FileUtils.readFileToString(file, "UTF-8" );
+        System.out.println(content);
     }
 
 
