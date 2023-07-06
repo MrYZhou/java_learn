@@ -84,14 +84,20 @@ public class WriteStr2 {
     @DisplayName("替换")
     public void testrepstr4() {
 
-        String kk = """
-                                
-                    <el-form-item label="数据选择">
+        String html = """
+                <el-form-item label="时间">
+                            <el-date-picker v-model="pickerVal" type="daterange" start-placeholder="开始日期"
+                              end-placeholder="结束日期" :picker-options="pickerOptions" value-format="timestamp"
+                              :editable="false" clearable>
                 """;
 
-        pattern = Pattern.compile("<el-form-item label=\"(.*)\"" );
+//        html = html.replaceAll("start-placeholder=\"([^\\u4e00-\\u9fa5]*?)\"" , ":start-placeholder=\"$1\"");
+//        html = html.replaceAll("end-placeholder=\"([^\\u4e00-\\u9fa5]*?)\"" , ":end-placeholder=\"$1\"" );
+//        System.out.println(html);
 
-        matcher = pattern.matcher(kk);
+        pattern = Pattern.compile("start-placeholder=\"([^\\u4e00-\\u9fa5]*?)\"");
+
+        matcher = pattern.matcher(html);
 
         while (matcher.find()) {
             System.out.println(matcher.group(1));
