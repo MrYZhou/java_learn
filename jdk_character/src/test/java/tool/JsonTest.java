@@ -1,3 +1,5 @@
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.DisplayName;
@@ -5,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 
 public class JsonTest {
@@ -66,6 +69,41 @@ public class JsonTest {
 
         System.out.println(value);
 
+    }
+
+    private static Map<String, Object> flatten(Map<String, Object> map, String prefix) {
+        Map<String, Object> flatMap = MapUtil.newHashMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = (prefix != null) ? prefix + "." + entry.getKey() : entry.getKey();
+            Object value = entry.getValue();
+            if (value instanceof Map) {
+                Map<String, Object> nestedMap = flatten((Map<String, Object>) value, key);
+                flatMap.putAll(nestedMap);
+            } else if (value instanceof JSONUtil) {
+                String jsonString = JSONUtil.toJsonStr(value);
+                flatMap.put(key, jsonString);
+            } else {
+                flatMap.put(key, value);
+            }
+        }
+        return flatMap;
+    }
+
+    private static String toJSONString(Object obj) {
+        if (obj instanceof JSONUtil) {
+            return JSONUtil.toJsonStr(JSONUtil.parse(obj));
+        } else {
+            return JSONUtil.toJsonStr(obj);
+        }
+    }
+
+    @Test
+    @DisplayName("转扁平json")
+    public void test4() {
+        String jsonStr = "{\"a\":{\"b\":\"1\"}}";
+        Map map1 = JSONObject.parseObject(jsonStr, Map.class);
+        Map<String, Object> flatMap = flatten(map1, null);
+        System.out.println(toJSONString(flatMap));
     }
 
     private String getChineseByCode(String jsonStr, String findKey) {
