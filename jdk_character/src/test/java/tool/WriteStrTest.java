@@ -178,4 +178,65 @@ public class WriteStrTest {
         }
         System.out.println(content);
     }
+
+    String myh = """
+              var checkStartTime = (rule, value, callback) => {
+                  if (!this.dataForm.endTime) {
+                    callback()
+                  } else {
+                    if (this.dataForm.endTime < value) {
+                      callback(new Error('开始日期应该小于结束日期'));
+                    } else {
+                      this.$refs.dataForm.validateField('endTime');
+                      callback()
+                    }
+                  }
+                }
+                var checkEndTime = (rule, value, callback) => {
+                  if (!this.dataForm.startTime) {
+                    callback()
+                  } else {
+                    if (this.dataForm.startTime > value) {
+                      callback(new Error("结束日期应该大于开始日期"));
+                    } else {
+                      callback()
+            """;
+
+    @Test
+    @DisplayName("把所有格式 >$t()< 增加{{}}")
+    public void test2() {
+        String html = """
+                                 <span v-if="scope.row.type==1">$t('notice.bulletin')</span>
+                                  <span v-if="scope.row.type==2">$t('notice.workflow')</span>
+                                  <span v-if="scope.row.type==3">$t('notice.system')</span>
+                """;
+
+        html = html.replaceAll(">\\$t\\('(.*)'\\)<", ">{{\\$t('($1)')}}<");
+        System.out.println(html);
+    }
+
+    @Test
+    @DisplayName("找到所有的引号内文字")
+    public void test3() {
+
+        Matcher matcher;
+        String regex;
+        regex = "'([\\u4e00-\\u9fa5]*?)'";
+        Pattern pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(myh);
+        while (matcher.find()) {
+            String group = matcher.group();
+            System.out.println(group);
+        }
+        regex = "\"([\\u4e00-\\u9fa5]*?)\"";
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(myh);
+        while (matcher.find()) {
+            String group = matcher.group();
+            System.out.println(group);
+        }
+
+    }
+
+
 }
