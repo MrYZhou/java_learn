@@ -61,7 +61,7 @@ public class WriteStr2 {
                                           <el-tab-pane label="$t('route.system-log')" name="sysLog">
                                             <SysLog ref="sysLog" v-if="visible.sysLog" /
                 """;
-        input = input.replaceAll("label=\"([^\\u4e00-\\u9fa5]*?)\"" , ":label=\"$1\"" );
+        input = input.replaceAll("label=\"([^\\u4e00-\\u9fa5]*?)\"", ":label=\"$1\"");
         System.out.println(input);
     }
 
@@ -105,11 +105,55 @@ public class WriteStr2 {
     }
 
     @Test
-    @DisplayName("替换" )
+    @DisplayName("替换")
     public void testrepstr5() throws IOException {
-        File file = new File("D:/Users/JNPF/Desktop/qz/qz-web/src/views/basic/profile/index.vue" );
-        String content = FileUtils.readFileToString(file, "UTF-8" );
+        File file = new File("D:/Users/JNPF/Desktop/qz/qz-web/src/views/basic/profile/index.vue");
+        String content = FileUtils.readFileToString(file, "UTF-8");
         System.out.println(content);
+    }
+
+    @Test
+    @DisplayName("替换2")
+    public void testrepstr6() throws IOException {
+
+        String html = """
+                   content-position="left"  :closable= "false"  title ="#!$t('route.workFlow-form')!#"  content ="$t('profile.emergencyContact')" >
+                    </groupTitle>
+                </el-form-item>
+                </el-col>
+                          <el-col :span="24"  >
+                          <el-divider   content-position="center" >
+                {{ TransText('我是分割线') }}         </el-divider>
+                          </el-col>
+                          <el-col :span="24">
+                              <el-tabs  v-model="activedxonff"  tab-position="top" class="mb-20">
+                          </el-tab-pane >
+                              <el-tab-pane  label="#!$t('route.workFlow-form')!#">  
+                """;
+
+        pattern = Pattern.compile("label=\"#!([^\\u4e00-\\u9fa5]*?)!#\"");
+        matcher = pattern.matcher(html);
+        while (matcher.find()) {
+            html = html.replace(matcher.group(), ":" + matcher.group());
+        }
+
+        pattern = Pattern.compile("title[\\s|\\S]*=\"#!([^\\u4e00-\\u9fa5]*?)!#\"");
+        matcher = pattern.matcher(html);
+        while (matcher.find()) {
+            html = html.replace(matcher.group(), ":" + matcher.group());
+
+        }
+
+        pattern = Pattern.compile("content[\\s|\\S]*=\"#!([^\\u4e00-\\u9fa5]*?)!#\"");
+        matcher = pattern.matcher(html);
+        while (matcher.find()) {
+            System.out.println(matcher.group());
+            html = html.replace(matcher.group(), ":" + matcher.group());
+        }
+
+        html = html.replaceAll("#!", "");
+        html = html.replaceAll("!#", "");
+        System.out.println(html);
     }
 
 
