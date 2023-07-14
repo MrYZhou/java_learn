@@ -157,4 +157,61 @@ public class WriteStr2 {
     }
 
 
+    @Test
+    @DisplayName("替换7")
+    public void test7() throws IOException {
+        String html = """
+                    <div class="success" v-if="!result.resultType">
+                          <img src="@/assets/images/success.png" alt="">
+                          <p class="success-title">批量导入成功</p>
+                          <p class="success-tip">您已成功导入{{ result.snum }}条数据</p>
+                        </div>
+                        <div class="unsuccess" v-if="result.resultType">
+                          <el-alert title="错误提醒：导入失败数据展示" type="warning" show-icon :closable="false" />
+                          <div class="upload error-show">
+                            <div class="up_left">
+                              <img class="" src="@/assets/images/tip.png">
+                            </div>
+                            <div class="up_right">
+                              <p class="tip">正常数量条数：<el-link type="success" :underline="false">{{ result.snum }}条
+                """;
+
+        pattern = Pattern.compile(">(\\s*[\\u4e00-\\u9fa5|，|？|：|\\w]+)[\\s|\\S]");
+        matcher = pattern.matcher(html);
+        while (matcher.find()) {
+            String key = matcher.group(1);
+            System.out.println(key);
+            html = html.replace(key, "{{$t('" + 12121212 + "')}}");
+        }
+
+        System.out.println(html);
+    }
+
+
+    @Test
+    @DisplayName("替换8")
+    public void test8() throws IOException {
+        String html = """
+                    <el-dialog title="批量导入" :close-on-click-modal="false" :visible.sync="visible"
+                                            class="JNPF-dialog JNPF-dialog_center JNPF-dialog-import" lock-scroll width="1000px">
+                                            <el-steps :active="active" align-center>
+                                              <el-step title="上传文件"></el-step>
+                                              <el-step title="数据预览"></el-step>
+                                              <el-step title="导入数据" ></el-step>
+                                            </el-steps>
+                                            <div class="import-main" v-show="active == 1">
+                """;
+
+        pattern = Pattern.compile("\\s+title=\"([\\u4e00-\\u9fa5]+)\"[\\s|\\S]");
+        matcher = pattern.matcher(html);
+        while (matcher.find()) {
+            String key = matcher.group(1);
+            System.out.println(key);
+            html = html.replace(key, "$t('" + 12121212 + "')");
+        }
+
+        System.out.println(html);
+    }
+
+
 }
