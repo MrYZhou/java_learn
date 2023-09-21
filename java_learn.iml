@@ -5,9 +5,4 @@
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
   </component>
-  <component name="FacetManager">
-    <facet type="Spring" name="Spring">
-      <configuration />
-    </facet>
-  </component>
 </module>

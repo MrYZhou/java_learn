@@ -16,7 +16,7 @@ public class OptionalTest {
    }
     public static void main(String[] args) {
         // 直接抛出异常处理
-//        Student student = new Student();
+//        build.Student student = new build.Student();
 //        student.setName("larry");
 //        getStudent(null);
 
@@ -62,7 +62,7 @@ public class OptionalTest {
 
         @Override
         public String toString() {
-            return "Student{" +
+            return "build.Student{" +
                     "name='" + name + '\'' +
                     ", age=" + age +
                     '}';
