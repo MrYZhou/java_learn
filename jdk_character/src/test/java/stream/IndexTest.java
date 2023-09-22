@@ -58,6 +58,8 @@ public class IndexTest {
     @Test
     @DisplayName("测试生成数组")
     public void testStudent3() {
+        List<String> list = Stream.generate(() -> 8).limit(3).map(String::valueOf).collect(Collectors.toList());
+        System.out.println(String.join(", " , list));
         // jdk1.8
         System.out.println(Stream.generate(() -> 8).limit(3).map(String::valueOf).collect(Collectors.toList()));
         // jdk17

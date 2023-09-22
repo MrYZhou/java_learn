@@ -1,8 +1,6 @@
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,9 +105,12 @@ public class WriteStr2 {
     @Test
     @DisplayName("替换")
     public void testrepstr5() throws IOException {
-        File file = new File("D:/Users/JNPF/Desktop/qz/qz-web/src/views/basic/profile/index.vue");
-        String content = FileUtils.readFileToString(file, "UTF-8");
-        System.out.println(content);
+//        File file = new File("D:/Users/JNPF/Desktop/qz/qz-web/src/views/basic/profile/index.vue");
+//        String content = FileUtils.readFileToString(file, "UTF-8");
+//        System.out.println(content);
+
+        System.out.println("".substring(1));
+
     }
 
     @Test
