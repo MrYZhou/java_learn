@@ -20,11 +20,8 @@ public class BuilderV2<T> {
      */
     private final List<Consumer<T>> dInjects = new ArrayList<>();
 
-    private Consumer head = new Consumer() {
-        @Override
-        public void accept(Object o) {
+    private Consumer head = o -> {
 
-        }
     };
 
     // V2: 构造函数私有化
