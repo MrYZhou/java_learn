@@ -1,5 +1,4 @@
-
-import org.junit.jupiter.api.Test;
+package build;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +8,11 @@ import java.util.function.Supplier;
 public class Builder<T> {
 
     /**
-     * 初始化属性的方法
+     * 存储调用方 指定构造类的 构造器
      */
     private final Supplier<T> constructor;
     /**
-     * 需要初始化的属性
+     * 存储 指定类 所有需要初始化的类属性
      */
     private final List<Consumer<T>> dInjects = new ArrayList<>();
 
@@ -30,22 +29,16 @@ public class Builder<T> {
         Student student = Builder.builder(Student::new).with(Student::setName, "张三" ).with(Student::setAge, 18).build();
         System.out.println(student);
     }
-
-    public <p> Builder<T> with(Builder.DInjectConsumer<T, p> consumer, p p) {
-        Consumer<T> c = instance -> consumer.accept(instance, p);
+    @FunctionalInterface
+    public interface DInjectConsumer<T, R> {
+        void accept(T t, R r);
+    }
+    public <R> Builder<T> with(Builder.DInjectConsumer<T, R> consumer, R r) {
+        Consumer<T> c = instance -> consumer.accept(instance, r);
         dInjects.add(c);
         return this;
     }
 
-    @Test
-    public void test() {
-        Builder<Student> aa = Builder.builder(Student::new).with(Student::setName, "张三" );
-
-//        Student student = Builder.builder(Student::new).with(Student::setName, "张三").with(Student::setAge, 18).build();
-//        System.out.println(student);
-//        Builder<Student> builder = Builder.builder(Student::new);
-
-    }
 
     public T build() {
         // 调用supplier 生成类实例
@@ -56,9 +49,6 @@ public class Builder<T> {
         return instance;
     }
 
-    @FunctionalInterface
-    public interface DInjectConsumer<T, p> {
-        void accept(T t, p p);
-    }
+
 
 }
