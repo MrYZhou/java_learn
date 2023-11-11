@@ -1,0 +1,31 @@
+
+
+
+
+if type == "sum"{
+  return a+b;
+}
+
+
+if type == "subtraction"{
+  return a-b;
+}
+
+
+if type == "multiplication"{
+  return a*b;
+}
+
+
+if type == "division"{
+  return a/b;
+}
+
+if type == "exp"{
+  try {
+    const value = eval(expStr)
+    return value
+  } catch (error) {
+    return false
+  }
+}
