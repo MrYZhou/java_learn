@@ -1,15 +1,16 @@
-package enumdemo;
+package common.enumdemo;
 
 
 import org.junit.jupiter.api.Test;
 
-import static enumdemo.StatusInfo.StormyStatusFirst;
-import static enumdemo.StatusInfo.StormyStatusSecond;
+import static common.enumdemo.StatusInfo.StormyStatusFirst;
+import static common.enumdemo.StatusInfo.StormyStatusSecond;
 
 public class EnumTest {
     @Test
     public void testEnum() {
         Status status = Status.of("暴雨一");
+        System.out.println(Status.of("暴雨一").name);
         switch (status) {
             case StormyStatusFirst:
                 System.out.println(status.name);

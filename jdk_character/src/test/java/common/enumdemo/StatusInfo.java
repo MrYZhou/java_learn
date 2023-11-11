@@ -1,4 +1,4 @@
-package enumdemo;
+package common.enumdemo;
 
 public interface StatusInfo {
     /**

@@ -1,4 +1,4 @@
-package enumdemo;
+package common.enumdemo;
 
 public enum Status {
     DefaultStatus("", -1),
