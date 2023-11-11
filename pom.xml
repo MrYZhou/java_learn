@@ -7,7 +7,6 @@
         <module>aviator_demo</module>
         <module>jdk_character</module>
         <module>aviator3</module>
-        <module>poi-tl</module>
     </modules>
 
     <groupId>larry</groupId>
