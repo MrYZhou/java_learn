@@ -1,4 +1,4 @@
-
+package common;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,7 +16,7 @@ public class ReflectTest {
 //        localTask1.invoke(new ReflectTest(),map);
     Object o = ReflectTest.class;
 //        Method localTask = ReflectTest.class.getDeclaredMethod(methodName, parameterTypes);
-        Object localTask = base.ReflectUtil.invokeFlowMethod(1, "localTask", aClass, aObject);
+        Object localTask = ReflectUtil.invokeFlowMethod(1, "localTask", aClass, aObject);
 //        System.out.println(localTask1);
         System.out.println(localTask);
 

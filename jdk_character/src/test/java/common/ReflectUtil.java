@@ -1,4 +1,4 @@
-package base;
+package common;
 
 
 import java.lang.reflect.Method;
@@ -29,4 +29,3 @@ public class ReflectUtil {
         }
     }
 }
-

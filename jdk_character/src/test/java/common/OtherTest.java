@@ -1,5 +1,9 @@
+package common;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 public class OtherTest {
 
@@ -16,4 +20,5 @@ public class OtherTest {
                 """;
         System.out.println(sqlBlock);
     }
+
 }
