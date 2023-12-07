@@ -1,0 +1,176 @@
+server:
+  #  端口
+  port: 8081
+  #  安全关闭应用
+  shutdown: graceful
+#  字典翻译
+#dictman:
+#  primaryKey: id    #默认表主键是解析id
+#  resultList: data.records #默认data.list
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 60s #关机缓冲时间,默认30s
+  servlet:
+    multipart: #文件传输配置
+      max-file-size: 100MB #单个数据大小限制
+      max-request-size: 100MB #请求总数据大小限制
+      enabled: true  #是否启用分段上传支持
+  data:
+    #===================== Redis配置 =====================
+    redis:
+      database: 1 #缓存库编号
+      host: 127.0.0.1
+      port: 6379
+      password:
+      timeout: 50000 #超时时间(单位：秒)
+      lettuce: #Lettuce为Redis的Java驱动包
+        pool:
+          max-active: 8 # 连接池最大连接数
+          max-wait: -1ms  # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          min-idle: 0 # 连接池中的最小空闲连接
+          max-idle: 8 # 连接池中的最大空闲连接
+  jackson: #序列化和反序列化json框架
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  #   数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    此处须配置自己的数据库地址和端口，否则启动失败
+    url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+      &allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    hikari:
+      max-lifetime: 60000
+
+  #  kafka:
+  #    bootstrap-servers: localhost:9092
+  #    consumer.group-id: myGroup
+
+  #  参考：https://spring-file-storage.xuyanwu.cn/
+  file-storage: #文件存储配置
+    default-platform: local-plus #默认使用的存储平台
+    thumbnail-suffix: ".min.jpg" #缩略图后缀，例如【.min.jpg】【.png】
+    local-plus:
+      - platform: local-plus # 存储平台标识
+        enable-storage: true  #启用存储
+        enable-access: true #启用访问（线上请使用 Nginx 配置，效率更高）
+        domain: "" # 访问域名，例如：“http://127.0.0.1:8030/local-plus/”，注意后面要和 path-patterns 保持一致，“/”结尾，本地存储建议使用相对路径，方便后期更换域名
+        base-path: local-plus/ # 基础路径
+        path-patterns: /local-plus/** # 访问路径
+        storage-path: D:/Temp/ # 存储路径
+
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: token
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 360000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # token风格
+  # random-32 随机32位字符串
+  token-style: random-32
+  # 是否输出操作日志
+  is-log: false
+  #关闭控制台banner
+  is-print: off
+  sso:
+    # 打开模式三（使用Http请求校验ticket）
+    is-http: true
+    # SSO-Server端 ticket校验地址
+    check-ticket-url: http://sa-sso-server.com:9000/sso/checkTicket
+
+forest:
+  # 关闭 forest 请求日志打印
+  log-enabled: false
+
+# 定时任务
+xxl:
+  open: false
+  job:
+    # 执行器通讯TOKEN [选填]：非空时启用；
+    accessToken: dasj2nd81jf9asjdkl5jk234
+    admin:
+      # 调度中心部署根地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。
+      # 执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
+      addresses: http://127.0.0.1:8080/xxl-job-admin
+    executor:
+      ### 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
+      appname: executor1
+      # 执行器注册 [选填]：优先使用该配置作为注册地址，为空时使用内嵌服务 ”IP:PORT“ 作为注册地址。
+      # 从而更灵活的支持容器类型执行器动态IP和动态映射端口问题。
+      address: http://192.168.112.1:9999/xxl-job-executor
+      # 执行器IP [选填]：默认为空表示自动获取IP，多网卡时可手动设置指定IP，该IP不会绑定Host仅作为通讯实用；
+      # 地址信息用于 "执行器注册" 和 "调度中心请求并触发任务"；
+      ip: 192.168.112.1
+      # [选填]：小于等于0则自动获取；默认端口为9999
+      port: 9999
+      # 执行器运行日志文件存储磁盘路径 [选填] ：需要对该路径拥有读写权限；为空则使用默认路径；
+      logPath: /data/applogs/xxl-job/jobhandler
+      # 执行器日志文件保存天数 [选填] ： 过期日志自动清理, 限制值大于等于3时生效; 否则, 如-1, 关闭自动清理功能
+      logRetentionDays: 30
+#短信验证码,参考https://wind.kim/
+sms:
+  isPrint: false
+  alibaba:
+    #阿里云的accessKey
+    accessKeyId: 您的accessKey
+    #阿里云的accessKeySecret
+    accessKeySecret: 您的accessKeySecret
+    #短信签名
+    signature: 测试签名
+    #模板ID 用于发送固定模板短信使用
+    templateId: SMS_215125134
+    #模板变量 上述模板的变量
+    templateName: code
+    #请求地址 默认为dysmsapi.aliyuncs.com 如无特殊改变可以不用设置
+    requestUrl: dysmsapi.aliyuncs.com
+  huawei:
+    #华为短信appKey
+    appKey: 5N6fvXXXX920HaWhVXXXXXX7fYa
+    #华为短信appSecret
+    app-secret: Wujt7EYzZTBXXXXXXEhSP6XXXX
+    #短信签名
+    signature: 华为短信测试
+    #通道号
+    sender: 8823040504797
+    #模板ID 如果使用自定义模板发送方法可不设定
+    template-id: acXXXXXXXXc274b2a8263479b954c1ab5
+    #华为回调地址，如不需要可不设置或为空
+    statusCallBack:
+    #华为分配的app请求地址
+    url: https://XXXXX.cn-north-4.XXXXXXXX.com:443
+
+#日志配置
+#logging:
+#  config: classpath:logback-larry.xml
+#  file:
+#    path: d:/toolserver/logs/${spring.application.name}
+#  level:
+#    #    应用自身的日志等级
+#    admin: info
+#    org.springframework.web: error
+
+
+#监控地址 127.0.0.1:8088/monitor
+#management:
+#  endpoints:
+#    web:
+# base-path: /monitor
+# exposure:
+#   include: '*'
+#   # 排除端点
+#  #   exclude: shutdown
+#  server:
+#    port: 8088
+#  endpoint:
+#    health:
+# show-details: always
+#    shutdown:
+# enabled: true

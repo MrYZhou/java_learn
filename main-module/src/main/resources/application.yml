@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: toolserve
+  profiles:
+    active: dev

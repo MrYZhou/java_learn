@@ -1,4 +1,4 @@
-package completable;
+package thread.completable;
 
 
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +12,8 @@ public class CompletableTest {
     @Test
     @DisplayName("runAsync无返回值")
     public void runAsync() {
-        try (ExecutorService executorService = Executors.newFixedThreadPool(5)) {
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        try  {
             for (int i = 0; i < 50; i++) {
                 CompletableFuture.runAsync(
                         () -> {
@@ -20,6 +21,8 @@ public class CompletableTest {
                         },
                         executorService);
             }
+        }finally {
+            executorService.close();
         }
     }
 
