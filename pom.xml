@@ -6,7 +6,6 @@
     <modules>
         <module>aviator5</module>
         <module>jdk_character</module>
-        <module>aviator3</module>
         <module>main-module</module>
     </modules>
 

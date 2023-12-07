@@ -29,3 +29,8 @@ hs_err_pid*
 .project
 .settings
 .vscode
+
+./main-module/.classpath
+./main-module/.factorypath
+./main-module/.settings
+./main-module/.mvn/*
