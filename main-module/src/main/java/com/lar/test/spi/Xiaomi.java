@@ -1,4 +1,6 @@
-package spi;
+package com.lar.test.spi;
+
+import lombok.NoArgsConstructor;
 
 
 public class Xiaomi implements  Phone{

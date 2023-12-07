@@ -1,6 +1,9 @@
-package spi;
+package com.lar.test.spi;
 
-public class Huawei implements Phone {
+import lombok.NoArgsConstructor;
+
+
+public class Huawei implements  Phone{
     @Override
     public String getName() {
         return "Huawei";

@@ -12,18 +12,18 @@ public class CompletableTest {
     @Test
     @DisplayName("runAsync无返回值")
     public void runAsync() {
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
-        try  {
-            for (int i = 0; i < 50; i++) {
-                CompletableFuture.runAsync(
-                        () -> {
-                            System.out.println(Thread.currentThread().getName());
-                        },
-                        executorService);
-            }
-        }finally {
-            executorService.close();
-        }
+//        ExecutorService executorService = Executors.newFixedThreadPool(5);
+//        try  {
+//            for (int i = 0; i < 50; i++) {
+//                CompletableFuture.runAsync(
+//                        () -> {
+//                            System.out.println(Thread.currentThread().getName());
+//                        },
+//                        executorService);
+//            }
+//        }finally {
+//            executorService.close();
+//        }
     }
 
     @Test
