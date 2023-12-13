@@ -90,15 +90,18 @@ public class WriteStrTest {
     @Test
     @DisplayName("获取文件中的中文")
     public void testrepstr() {
-        String filePath = "D:\\Users\\JNPF\\Downloads\\i18-dev1685957692914\\html\\web";
-
+        String filePath = "D:\\Users\\JNPF\\Desktop\\project\\java_learn\\jdk_character\\src\\test\\java\\tool\\txt";
         HashSet<String> chineseStrings = new HashSet<>();
-        this.collectStr(filePath, chineseStrings);
-        chineseStrings.forEach(System.out::println);
+        this.collectFile(filePath, chineseStrings);
+        for (String chineseString : chineseStrings) {
+            chineseString = chineseString.replace("\"","").replace("'","");
+            if(chineseString.length()<=1) continue;
+            System.out.println(chineseString);
+        }
     }
 
 
-    private void collectStr(String directory, HashSet<String> chineseStrings) {
+    private void collectFile(String directory, HashSet<String> chineseStrings) {
         File dir = new File(directory);
         if (dir.isDirectory()) {
             File[] files = dir.listFiles();
@@ -106,12 +109,8 @@ public class WriteStrTest {
                 System.err.println("Error reading files in " + dir.getAbsolutePath());
                 return;
             }
-            files = files[0].listFiles();
-
-            if (files != null) {
-                for (File file : files) {
-                    findFileChinese(file, chineseStrings);
-                }
+            for (File file : files) {
+                findFileChinese(file, chineseStrings);
             }
 
         } else {
@@ -120,30 +119,59 @@ public class WriteStrTest {
         }
     }
 
+    @Test
+    @DisplayName("再次找是不是有存在中文")
+    public void test121() {
+        Pattern pattern2;
+        Matcher matcher2;
+        String line = "1";
+        pattern2 =  Pattern.compile("([一-龥]+)");
+        matcher2 = pattern2.matcher(line);
+        while (matcher2.find()) {
+            System.out.println(matcher2.group());
+        }
+    }
+
     private void findFileChinese(File file, HashSet<String> chineseStrings) {
         if (file.isDirectory()) return;
         Pattern pattern;
         Matcher matcher;
+        Pattern pattern2;
+        Matcher matcher2;
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                pattern = Pattern.compile("\"[一-龥]+\"");
+                boolean canadd = false;
+                pattern = Pattern.compile("\"([\\u4e00-\\u9fa5|，|？|：|\\w]+)\"");
                 matcher = pattern.matcher(line);
+
                 while (matcher.find()) {
-                    chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
+                    canadd = false;
+                    // 再次过滤必须有存在中文
+                    pattern2 = Pattern.compile("([一-龥]+)");
+                    matcher2 = pattern2.matcher(matcher.group());
+                    while (matcher2.find()) {
+                        canadd  = true;
+                        break;
+                    }
+
+                    if(canadd) chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
                 }
 
-                pattern = Pattern.compile("'[一-龥]+'");
+                pattern = Pattern.compile("'([\\u4e00-\\u9fa5|，|？|：|\\w]+)'");
                 matcher = pattern.matcher(line);
                 while (matcher.find()) {
-                    chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
+                    canadd =false;
+                    // 再次过滤必须有存在中文
+                    pattern2 = Pattern.compile("([一-龥]+)");
+                    matcher2 = pattern2.matcher(matcher.group());
+                    while (matcher2.find()) {
+                        canadd  = true;
+                        break;
+                    }
+                    if(canadd) chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
                 }
 
-                pattern = Pattern.compile(">[一-龥].*<");
-                matcher = pattern.matcher(line);
-                while (matcher.find()) {
-                    chineseStrings.add(matcher.group()); // 将中文字符串添加到HashSet中
-                }
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -170,7 +198,6 @@ public class WriteStrTest {
         String[] tagList = new String[]{
                 "title", "placeholder", "description", "content"
         };
-//        pattern = Pattern.compile(":label=\"([一-龥]+)\"");
         pattern = Pattern.compile(":label=\"([一-龥]+)\"");
         matcher = pattern.matcher(content);
         while (matcher.find()) {
