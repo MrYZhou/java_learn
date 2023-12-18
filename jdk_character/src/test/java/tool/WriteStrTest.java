@@ -1,15 +1,20 @@
 package tool;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import lombok.Cleanup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -92,7 +97,7 @@ public class WriteStrTest {
     public void testrepstr() {
         String filePath = "D:\\Users\\JNPF\\Desktop\\project\\java_learn\\jdk_character\\src\\test\\java\\tool\\txt";
         HashSet<String> chineseStrings = new HashSet<>();
-        this.collectFile(filePath, chineseStrings);
+        this.collectFile(new File(filePath), chineseStrings);
         for (String chineseString : chineseStrings) {
             chineseString = chineseString.replace("\"","").replace("'","");
             if(chineseString.length()<=1) continue;
@@ -100,9 +105,42 @@ public class WriteStrTest {
         }
     }
 
+    @Test
+    @DisplayName("获取文件中datatule的中文")
+    public void testrepstr22() {
+        String filePath = "D:\\Users\\JNPF\\Desktop\\qz\\qz-web\\src\\views\\permission";
+        HashSet<String> chineseStrings = new HashSet<>();
+        File dir = new File(filePath);
+        this.collectFile(dir, chineseStrings);
+        for (String chineseString : chineseStrings) {
+            chineseString = chineseString.replace("\"","").replace("'","");
+            if(chineseString.length()<=1) continue;
+            System.out.println(chineseString);
+        }
+    }
 
-    private void collectFile(String directory, HashSet<String> chineseStrings) {
-        File dir = new File(directory);
+    @Test
+    @DisplayName("获取替换的标识")
+    public void testrepstr221() {
+        String scriptStr = "const txt = row.enabledMark ? '您确定要禁用当前区域吗, 是否继续?' : '您确定要开启当前区域吗, 是否继续?'";
+
+        Matcher matcher;
+        String regex;
+        // 替换单引号字符串
+        regex = "('[\\u4e00-\\u9fa5|，|？|、|！|：|\\w|\\s+|,|?|&]*?')";
+        Pattern pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(scriptStr);
+        while (matcher.find()) {
+            String group = matcher.group();
+            System.out.println(group);
+        }
+    }
+
+
+
+
+    private void collectFile(File dir, HashSet<String> chineseStrings) {
+
         if (dir.isDirectory()) {
             File[] files = dir.listFiles();
             if (files == null) {
@@ -110,7 +148,7 @@ public class WriteStrTest {
                 return;
             }
             for (File file : files) {
-                findFileChinese(file, chineseStrings);
+                collectFile(file, chineseStrings);
             }
 
         } else {
@@ -263,6 +301,15 @@ public class WriteStrTest {
             System.out.println(group);
         }
 
+    }
+
+    @Test
+    @DisplayName("验证是否成功")
+    public void test311() throws IOException {
+        File file = new File("E:\\Code\\Git\\develop\\java\\overtime\\jnpf-resources\\Language\\java\\en-US.json");
+        @Cleanup FileInputStream fileInputStream = new FileInputStream(file);
+        JSONObject jsonObject = JSONObject.parseObject(fileInputStream, LinkedHashMap.class);
+        System.out.println(jsonObject);
     }
 
 

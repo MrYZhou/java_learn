@@ -1,17 +1,31 @@
 package com.lar;
 
+import cn.hutool.json.JSONUtil;
 import com.lar.test.spi.Phone;
+import com.lar.util.HttpUtil;
+import com.lar.util.JsonUtil;
+import org.codehaus.groovy.runtime.powerassert.SourceText;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 
 import java.sql.Driver;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.ServiceLoader;
 
 @SpringBootTest
 public class Test1 {
+
+    @Test
+    @DisplayName("测试翻译")
+    public void test211() throws Exception {
+
+    }
+
+
     @Test
     @DisplayName("测试spi2")
     public void test3() throws Exception {
