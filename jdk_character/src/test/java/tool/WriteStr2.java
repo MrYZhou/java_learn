@@ -1,5 +1,6 @@
 package tool;
 
+import cn.hutool.core.util.DesensitizedUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -45,6 +46,19 @@ public class WriteStr2 {
         while (matcher.find()) {
             System.out.println(matcher.group());
         }
+    }
+
+
+    @Test
+    @DisplayName("手机号替换")
+    public void testrepstr22() {
+        String phone = "18718711234";
+//        phone = phone.substring(0,3)+"****"+phone.substring(7);
+//        phone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+
+
+        phone = DesensitizedUtil.mobilePhone(phone);
+        System.out.println(phone);
     }
 
 

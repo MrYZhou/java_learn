@@ -6,16 +6,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class IndexTest {
     static ArrayList<Student> list = new ArrayList<Student>() {{
-        add(new Student("张三", 10, "code1"));
-        add(new Student("李四", 10, "code2"));
-        add(new Student("李四", 10, "code1"));
-        add(new Student("李四", 20, "code2"));
-        add(new Student("李四", 30, "code5"));
+        add(new Student("1","张三", 10, "code1"));
+        add(new Student("2","李四", 10, "code2"));
+        add(new Student("3","李四", 10, "code1"));
+        add(new Student("4","李四", 20, "code2"));
+        add(new Student("5","李四", 30, "code5"));
     }};
 
     @Test
@@ -34,6 +35,15 @@ public class IndexTest {
         System.out.println(map);
         System.out.println(map.get("李四"));
     }
+
+    @Test
+    @DisplayName("测试转key,map")
+    public void testStudent2() {
+        Map<String, Student> orgMap = Optional.ofNullable(list).orElse(new ArrayList<>())
+                .stream().collect(Collectors.toMap(Student::getId, Function.identity()));
+        System.out.println(orgMap);
+    }
+
 
 
     @Test
@@ -72,6 +82,7 @@ public class IndexTest {
     @Data
     @AllArgsConstructor
     static class Student {
+        String id;
         String name;
         Integer age;
         String order;

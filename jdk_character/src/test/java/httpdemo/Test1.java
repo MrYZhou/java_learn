@@ -30,6 +30,7 @@ public class Test1 {
         // 发起 POST 请求
         String postUrl = "https://fanyi-api.baidu.com/api/trans/vip/translate";
         String postData = jsonStr;
+
         HttpResponse postResponse = HttpUtil.createPost(postUrl)
                 .body(postData)
                 .execute();
