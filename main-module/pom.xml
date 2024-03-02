@@ -17,7 +17,7 @@
         <java.version>17</java.version>
         <boot.version>3.1.1</boot.version>
         <easyexcel.version>3.3.2</easyexcel.version>
-        <hutool.version>5.8.5</hutool.version>
+        <hutool.version>6.0.0-M11</hutool.version>
         <fastjson.version>1.2.83</fastjson.version>
         <mybatis.version>3.5.3.1</mybatis.version>
         <xxl.version>2.4.0</xxl.version>
