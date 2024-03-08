@@ -1,3 +1,5 @@
+package sealed;
+
 /**
  * sealed jdk17特性
  * sealed 密封类的主要作用就是限制类的继承。

@@ -1,3 +1,5 @@
+package sealed;
+
 public non-sealed class Cat extends Animal {
     @Override
     public void eat() {

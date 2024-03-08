@@ -1,5 +1,6 @@
 package stream;
 
+import cn.hutool.json.JSONUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +42,8 @@ public class IndexTest {
     public void testStudent2() {
         Map<String, Student> orgMap = Optional.ofNullable(list).orElse(new ArrayList<>())
                 .stream().collect(Collectors.toMap(Student::getId, Function.identity()));
-        System.out.println(orgMap);
+        Student student = orgMap.get("1");
+        System.out.println(student.getName());
     }
 
 

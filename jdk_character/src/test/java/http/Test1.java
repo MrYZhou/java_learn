@@ -1,16 +1,12 @@
-package httpdemo;
+package http;
 
-import cn.hutool.Hutool;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import tool.HttpTool;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class Test1 {
     public static void main(String[] args) {
