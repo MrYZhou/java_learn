@@ -1,4 +1,4 @@
-package completable;
+package thread.completable;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

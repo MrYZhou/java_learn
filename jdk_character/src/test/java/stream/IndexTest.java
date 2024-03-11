@@ -49,14 +49,14 @@ public class IndexTest {
 
 
     @Test
-    @DisplayName("测试分组1")
+    @DisplayName("按名字key分组")
     public void testgroup1() {
         // 先把10岁的收集后在按名字分组
         Map<String, List<Student>> projectMap = list.stream().filter(t -> "10".equals(t.getAge())).collect(Collectors.groupingBy(Student::getName));
     }
 
     @Test
-    @DisplayName("测试分组2")
+    @DisplayName("分组加排序")
     public void testgroup2() {
         // 先把排序码大小的先分组，没有排序码的优先级最低
         HashMap<String, Integer> map = new HashMap<>();

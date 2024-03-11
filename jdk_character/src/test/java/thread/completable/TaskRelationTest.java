@@ -1,5 +1,8 @@
 package thread.completable;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;
 
@@ -12,13 +15,10 @@ import java.util.function.BiConsumer;
  */
 public class TaskRelationTest {
 
-    public static void main(String[] args) {
-//        thenApplyAsync();
-//        handleAsync();
-//        thenAcceptAsync();
-        thenRunAsync();
-    }
-    public static void thenRunAsync() {
+
+    @Test
+    @DisplayName("无返回值，继续执行,即使上个任务失败，不接收上个任务的返回值")
+    public  void thenRunAsync() {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<Void> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
@@ -37,8 +37,9 @@ public class TaskRelationTest {
         System.out.println("main complete");
 
     }
-
-    public static void thenAcceptAsync() {
+    @Test
+    @DisplayName("无返回值")
+    public  void thenAcceptAsync() {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<Void> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
@@ -57,7 +58,10 @@ public class TaskRelationTest {
         System.out.println("main complete");
 
     }
-    public static void thenApplyAsync() {
+
+    @Test
+    @DisplayName("有返回值")
+    public  void thenApplyAsync() {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<Integer> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
@@ -93,8 +97,9 @@ public class TaskRelationTest {
         }
         System.out.println(integer);
     }
-
-    public static void handleAsync() {
+    @Test
+    @DisplayName("处理带异常，有返回值")
+    public  void handleAsync() {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         CompletableFuture<Integer> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {

@@ -1,4 +1,4 @@
-package tool;
+package re;
 
 import cn.hutool.core.util.DesensitizedUtil;
 import org.junit.jupiter.api.DisplayName;
