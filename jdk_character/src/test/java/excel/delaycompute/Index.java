@@ -31,13 +31,13 @@ public class Index {
     @Test
     public void test() {
         Workbook workbook =new XSSFWorkbook();
-        ExcelHelper compute = new ExcelHelper(workbook);
+        ExcelHelper compute = new ExcelHelper();
         compute.addPreHandle((data,params)->{
             System.out.println(1);
-        });
-        compute.addPreHandle((data,params)->{
+        },(data,params)->{
             System.out.println(2);
         });
+        compute.init(workbook);
         compute.doPreHandle();
         compute.doPostHandle();
     }
