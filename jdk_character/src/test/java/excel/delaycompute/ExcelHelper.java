@@ -30,9 +30,6 @@ public class ExcelHelper {
 
     // 初始化后置处理
     private void initPostHandle() {
-        addPostHandle((data, params) -> {
-            System.out.println(2);
-        });
         this.initPost = true;
     }
 

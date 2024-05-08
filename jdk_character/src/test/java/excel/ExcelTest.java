@@ -33,9 +33,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExcelTest {
 
@@ -216,6 +219,29 @@ public class ExcelTest {
     @Test
     @DisplayName("整合案例")
     public void test4() throws IOException {
+        String name = "单行输入(name)";
+        Pattern pattern = Pattern.compile("(.*)\\((.*?)\\)");
+        Matcher matcher = pattern.matcher(name);
 
+        if (matcher.find()) {
+            System.out.println("匹配到的前缀: " + matcher.group(1)); // 输出：单行输入
+            System.out.println("匹配到的内容: " + matcher.group(2)); // 输出：name
+        }
+    }
+
+    Map<String,String> keyMap = new LinkedHashMap(){{
+        put("organizeId","所属组织");
+        put("fullName","岗位名称");
+        put("enCode","岗位编码");
+        put("type","岗位类型");
+        put("sortCode","排序");
+        put("enabledMark","状态");
+        put("description","说明");
+    }};
+
+    @Test
+    @DisplayName("测试")
+    public void test5() throws IOException {
+        System.out.println(keyMap);
     }
 }
