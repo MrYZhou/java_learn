@@ -1,8 +1,10 @@
 package re;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Cleanup;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +25,7 @@ public class WriteStrTest {
     @Test
     @DisplayName("从文件读取成字符串")
     public void wewq() throws IOException {
+//        Triple< Map<String, Object>, Map<String, String[]>> triple =
         String dirPath = "D:/Users/JNPF/Desktop/project/java/java_learn/jdk_character/src/test/java/common/tool/com.txt";
         File dir = new File(dirPath);
         String content = FileUtils.readFileToString(dir, "utf8");
@@ -60,6 +63,31 @@ public class WriteStrTest {
             }
         } else {
             this.replaceStr(dir, source);
+        }
+    }
+
+    @Test
+    public void wrapTag23() throws IOException {
+        String txt ="\"countdown\": {\n" +
+                "            \"normalText\": \"获取验证码\", \"sendText\": \"{0}秒后重新获取\"\n" +
+                "        }";
+        cn.hutool.json.JSONObject entries = JSONUtil.parseObj(txt);
+        System.out.println(entries);
+    }
+    @Test
+    @DisplayName("替换中文")
+    public void wrapTag2() throws IOException {
+        String key ="common.ka";
+//        key="哈哈a";
+        Matcher matcher;
+        String regex;
+        // 替换单引号字符串
+        regex = "([a-z|.]*)";
+        Pattern pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(key);
+        while (matcher.find()) {
+            String group = matcher.group();
+            System.out.println(group);
         }
     }
 
