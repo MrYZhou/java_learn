@@ -28,10 +28,11 @@ public class OtherTest {
     public void test2() {
         // 获取当前日期
         LocalDate currentDate = LocalDate.now();
-
+        String timeFormat = "YYYY/MM/dd";
+        timeFormat = timeFormat.replaceAll("YYYY","yyyy");
+        timeFormat = timeFormat.replaceAll("DD", "dd");
         // 定义格式化器，其中 "yyyy-MM-dd" 表示四位年份、两位月份（不足两位补零）、两位日期
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY/MM/dd");
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(timeFormat);
         // 格式化当前日期为字符串
         String currentDateStr = currentDate.format(formatter);
 

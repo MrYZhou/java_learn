@@ -4,7 +4,6 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Cleanup;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.tuple.Triple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -40,55 +39,6 @@ public class WriteStrTest {
             System.out.println(group);
         }
 
-    }
-
-    @Test
-    @DisplayName("包裹国际化字符")
-    public void wrapTag() throws IOException {
-        String leftWrap = "{{this.$t(\"";
-        String rightWrap = "\")}}";
-        String dirPath = "D:/Users/JNPF/Desktop/project/java/java_learn/jdk_character/src/test/java/common/tool/com.txt";
-
-        Map<String, String> source = new HashMap<>();
-        String str1 = "提示";
-        String str2 = "没有更多数据";
-        source.put(str1, leftWrap + "common.tip" + rightWrap);
-        source.put(str2, leftWrap + "common.search2" + rightWrap);
-
-        File dir = new File(dirPath);
-        if (dir.isDirectory()) {
-            File[] files = dir.listFiles();
-            for (File file : Objects.requireNonNull(files)) {
-                this.replaceStr(file, source);
-            }
-        } else {
-            this.replaceStr(dir, source);
-        }
-    }
-
-    @Test
-    public void wrapTag23() throws IOException {
-        String txt ="\"countdown\": {\n" +
-                "            \"normalText\": \"获取验证码\", \"sendText\": \"{0}秒后重新获取\"\n" +
-                "        }";
-        cn.hutool.json.JSONObject entries = JSONUtil.parseObj(txt);
-        System.out.println(entries);
-    }
-    @Test
-    @DisplayName("替换中文")
-    public void wrapTag2() throws IOException {
-        String key ="common.ka";
-//        key="哈哈a";
-        Matcher matcher;
-        String regex;
-        // 替换单引号字符串
-        regex = "([a-z|.]*)";
-        Pattern pattern = Pattern.compile(regex);
-        matcher = pattern.matcher(key);
-        while (matcher.find()) {
-            String group = matcher.group();
-            System.out.println(group);
-        }
     }
 
     public void replaceStr(File file, Map<String, String> source) throws IOException {
@@ -154,7 +104,7 @@ public class WriteStrTest {
         Matcher matcher;
         String regex;
         // 替换单引号字符串
-        regex = "('[\\u4e00-\\u9fa5|，|？|、|！|：|\\w|\\s+|,|?|&]*?')";
+        regex = "('[\\u4e00-\\u9fa5|，|？|、|！|：|\\w|\\s+|,|?|&]*')";
         Pattern pattern = Pattern.compile(regex);
         matcher = pattern.matcher(scriptStr);
         while (matcher.find()) {
@@ -243,33 +193,6 @@ public class WriteStrTest {
         }
     }
 
-    @Test
-    @DisplayName("替换冒号")
-    public void test() {
-        Pattern pattern;
-        Matcher matcher;
-        String content = """
-                     <el-form-item :label="数据选择">
-                             <el-radio-group v-model="type">
-                               <el-radio :label="0">当前页面数据</el-radio>
-                               <el-radio :label="1">全部页面数据</e
-                      <el-form-item :label="导出字段">
-                             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
-                               @change="handleCheckAllChange">全选</el-checkbox>
-                             <el-checkbox-group v-model="columns" @change="handleCheckedChange">
-                               <el-checkbox v-for="item in columnList" :label="item.prop" :key="item.prop">
-                                 {{item.label}}          
-                """;
-        String[] tagList = new String[]{
-                "title", "placeholder", "description", "content"
-        };
-        pattern = Pattern.compile(":label=\"([一-龥]+)\"");
-        matcher = pattern.matcher(content);
-        while (matcher.find()) {
-            content = content.replace(matcher.group(1), "'" + matcher.group(1) + "'");
-        }
-        System.out.println(content);
-    }
 
     String myh = """
               var checkStartTime = (rule, value, callback) => {
@@ -294,18 +217,6 @@ public class WriteStrTest {
                       callback()
             """;
 
-    @Test
-    @DisplayName("把所有格式 >$t()< 增加{{}}")
-    public void test2() {
-        String html = """
-                                 <span v-if="scope.row.type==1">$t('notice.bulletin')</span>
-                                  <span v-if="scope.row.type==2">$t('notice.workflow')</span>
-                                  <span v-if="scope.row.type==3">$t('notice.system')</span>
-                """;
-
-        html = html.replaceAll(">\\$t\\('(.*)'\\)<", ">{{\\$t('($1)')}}<");
-        System.out.println(html);
-    }
 
     @Test
     @DisplayName("找到所有的引号内文字")
@@ -328,15 +239,6 @@ public class WriteStrTest {
             System.out.println(group);
         }
 
-    }
-
-    @Test
-    @DisplayName("验证是否成功")
-    public void test311() throws IOException {
-        File file = new File("E:\\Code\\Git\\develop\\java\\overtime\\jnpf-resources\\Language\\java\\en-US.json");
-        @Cleanup FileInputStream fileInputStream = new FileInputStream(file);
-        JSONObject jsonObject = JSONObject.parseObject(fileInputStream, LinkedHashMap.class);
-        System.out.println(jsonObject);
     }
 
 
