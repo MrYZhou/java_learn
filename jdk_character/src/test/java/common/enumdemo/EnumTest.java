@@ -10,8 +10,11 @@ public class EnumTest {
     @Test
     public void testEnum() {
         Status status = Status.of("暴雨一");
-        System.out.println(Status.of("暴雨一").name);
-        switch (status) {
+        Status status2 = Status.of(1);
+        if(status2.equals(Status.StormyStatusFirst)){
+            System.out.println("匹配成功:"+Status.StormyStatusFirst.value);
+        }
+        switch (status2) {
             case StormyStatusFirst:
                 System.out.println(status.name);
                 System.out.println(status.value);

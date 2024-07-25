@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class FuntionTest {
+public class FunctionTest {
     /**
      * Consumer接口是一个函数式接口，用于表示一个接受单个输入参数并且不返回结果的操作。
      * 它定义了一个名为accept的抽象方法，该方法接受一个泛型参数并且没有返回值。

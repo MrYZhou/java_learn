@@ -1,8 +1,12 @@
 package common;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -39,5 +43,31 @@ public class OtherTest {
         System.out.println("Current date as string (with leading zeros for month): " + currentDateStr);
     }
 
+
+    @Test
+    @DisplayName("测试")
+    public void test23() throws IOException {
+        File fileObj = new File("aa.txt");
+
+
+        byte[] yozoFiles = new byte[]{1,2,3,4,5,6,7,8,9};
+        try (FileOutputStream fos = new FileOutputStream(fileObj)) {
+            // 将字节数组写入文件
+            fos.write(yozoFiles);
+            // 刷新缓冲区并确保所有数据已写入文件
+            fos.flush();
+            String randomTempFilePaht = "" + "temp"+".docx";
+            File fileObjNew = new File(randomTempFilePaht);
+            FileUtils.copyFile(fileObj,fileObjNew);
+
+
+//            fileObj.renameTo(fileObjNew);
+
+
+        }finally {
+//            fileObj.delete();
+        }
+
+    }
 
 }

@@ -6,7 +6,6 @@ public enum Status {
     StormyStatusSecond("暴雨二", 2);
 
     public final Integer value;
-
     public final String name;
 
     Status(String name, Integer value) {
