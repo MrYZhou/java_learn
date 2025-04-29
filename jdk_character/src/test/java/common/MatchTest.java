@@ -10,7 +10,10 @@ public class MatchTest {
         String name = "xiao";
         int ret = switch (name) {
             case "ai" -> 1;
-            case "xiao", "xian" -> 2;
+            case "xiao", "xian" ->{
+                System.out.println(1);
+                yield 1;
+            }
             default -> 0;
         };
         System.out.println(ret);
