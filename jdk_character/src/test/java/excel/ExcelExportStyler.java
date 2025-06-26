@@ -59,11 +59,11 @@ public class ExcelExportStyler implements IExcelExportStyler {
     @Override
     public CellStyle getStyles(boolean parity, ExcelExportEntity entity) {
         XSSFCellStyle style = (XSSFCellStyle) workbook.createCellStyle();
-        this.setBlackBorder(style);
-        // 单元格内容水平居中
-        style.setAlignment(HorizontalAlignment.CENTER);
-        // 单元格内容垂直居中
-        style.setVerticalAlignment(VerticalAlignment.CENTER);
+//        this.setBlackBorder(style);
+//        // 单元格内容水平居中
+//        style.setAlignment(HorizontalAlignment.CENTER);
+//        // 单元格内容垂直居中
+//        style.setVerticalAlignment(VerticalAlignment.CENTER);
         return style;
     }
 

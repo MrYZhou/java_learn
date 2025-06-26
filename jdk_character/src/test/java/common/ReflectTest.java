@@ -52,8 +52,8 @@ public class ReflectTest {
         Object targetArray = null;
         boolean isArray = jsonArray instanceof JSONArray ? true : false;
         if (isArray) {
-            arrayType = Array.newInstance(type, 0).getClass();
-            targetArray = Array.newInstance(type, length);  // 动态创建数组实例
+//            arrayType = Array.newInstance(type, 0).getClass();
+            targetArray = Array.newInstance(Object.class, length);  // 动态创建数组实例
             for (int i = 0; i < length; i++) {
                 Object element = jsonArray.get(i);
                 // 处理不同类型转换逻辑
@@ -79,7 +79,7 @@ public class ReflectTest {
 
 
         try {
-            Method method = page.getClass().getMethod("setSelectKey", arrayType);
+            Method method = page.getClass().getMethod("setSelectKey", isArray? Object[].class:type);
             method.invoke(page, targetArray);
             System.out.println(page);
         } catch (NoSuchMethodException e) {
@@ -90,6 +90,6 @@ public class ReflectTest {
 
     @Data
     class Page {
-        String[] selectKey;
+        Object[] selectKey;
     }
 }
