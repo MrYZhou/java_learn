@@ -64,7 +64,6 @@ public class ExecUtil {
                 ExecResult result = new ExecResult(exitCode, output, error);
                 if (callback != null) callback.accept(result);
                 return result;
-
             } catch (Exception e) {
                 ExecResult result = new ExecResult(-1, "", "Execution failed: " + e.getMessage());
                 if (callback != null) callback.accept(result);

@@ -3,7 +3,10 @@ package exec;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class ExecTest {
     @Test
@@ -33,24 +36,30 @@ public class ExecTest {
     }
     @Test
     @DisplayName("运行java")
-    public void test(){
-
+    public void test() throws ExecutionException, InterruptedException {
+        // java执行器，端口检测
 //        // 测试执行Java程序
+        String javaHome = System.getProperty("java.home");
         String[] vmArgs = {"-Xmx512m", "-Xms256m", "-Dconfig.file=app.properties","-Dserver.port=8084"};
-        ExecUtil.execJavaProgramAsync(
-                "C:\\Users\\lg\\.jdks\\dragonwell-17.0.16",
+        ExecUtil.execJavaProgramAsync(javaHome,
                 "C:\\Users\\lg\\Desktop\\cloud\\book\\borrow-server\\target\\borrow-0.0.1-SNAPSHOT.jar",
                 vmArgs,
-                30000,result -> {
-                    if(!result.isSuccess()) System.out.println("borrow服务启动失败");
+                10000, result -> {
+                    System.out.println(result);
                 }
         );
-//        System.out.println(javaResult.getError());
         try {
-            Thread.sleep(50000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+    }
+    @Test
+    public  void test3(){
+        String javaHome = System.getProperty("java.home");
+        String jdkPath = javaHome.substring(0, javaHome.lastIndexOf(File.separator));
+        System.out.println(javaHome);
 
     }
 }
