@@ -4,6 +4,7 @@ class AesGcmUtil {
     constructor() {
         this.GCM_IV_LENGTH = 12 // GCM推荐12字节IV
         this.GCM_TAG_LENGTH = 128 // 认证标签长度（比特）
+        this.key = forge.util.encodeUtf8("EY8WePvjM5GGwQzn")
     }
 
     // 生成随机密钥（AES-256）
@@ -17,8 +18,9 @@ class AesGcmUtil {
     }
 
     // 加密方法
-    encrypt(iv, plaintext, key) {
-        const cipher = forge.cipher.createCipher("AES-GCM", key)
+    encrypt(plaintext) {
+        const iv = this.generateIV()
+        const cipher = forge.cipher.createCipher("AES-GCM", this.key)
         cipher.start({
             iv: iv,
             tagLength: this.GCM_TAG_LENGTH,
@@ -30,13 +32,29 @@ class AesGcmUtil {
         const encrypted = cipher.output.getBytes()
         const tag = cipher.mode.tag.getBytes()
 
-        // 将认证标签附加到密文后面
-        console.log(encrypted, 2, tag)
-        return encrypted + tag
+        // 将iv+密钥+认证标签组成密文
+        return this.hexEncode(iv + encrypted + tag)
+    }
+
+    decrypt(ciphertext) {
+        // 先把hex格式解密
+        let fullEncryptedData = this.hexDecode(ciphertext)
+
+        // 分离IV (前12字节)
+        const iv = fullEncryptedData.slice(0, this.GCM_IV_LENGTH)
+        const ciphertextWithTag = fullEncryptedData.slice(this.GCM_IV_LENGTH)
+
+        // 执行解密
+        const decryptedBytes = this.decryptMe(iv, ciphertextWithTag, this.key)
+
+        // 转换为字符串
+        const decryptedText = forge.util.decodeUtf8(decryptedBytes)
+
+        return decryptedText
     }
 
     // 解密方法
-    decrypt(iv, ciphertextWithTag, key) {
+    decryptMe(iv, ciphertextWithTag, key) {
         // 分离密文和认证标签
         const tagLength = this.GCM_TAG_LENGTH / 8 // 标签字节长度
         const ciphertext = ciphertextWithTag.slice(0, -tagLength)
@@ -52,58 +70,32 @@ class AesGcmUtil {
         const result = decipher.finish()
 
         if (!result) {
-            throw new Error("解密失败：认证标签验证失败")
+            throw new Error(
+                "Decryption failed: Authentication tag verification failed"
+            )
         }
 
         return decipher.output.getBytes()
     }
-
-    // Base64编码工具方法
-    bytesToBase64(bytes) {
-        return forge.util.encode64(bytes)
+    hexEncode(binaryData) {
+        return forge.util.bytesToHex(binaryData)
     }
-
-    // Base64解码工具方法
-    base64ToBytes(base64) {
-        return forge.util.decode64(base64)
+    hexDecode(encodedData) {
+        return forge.util.hexToBytes(encodedData)
     }
-
-    // 示例用法
-    static main() {
+    static testEncrypt() {
         const util = new AesGcmUtil()
-
         try {
-            // 1. 生成密钥和IV
-            let key = util.generateKey()
-            const iv = util.generateIV()
-            const plaintext = "Hello, 百度Comate!"
-
-            console.log("原始明文:", plaintext)
-            console.log("密钥长度:", key.length, "字节")
-            console.log("IV长度:", iv.length, "字节")
-
+            const plaintext = "Hello, Comate!"
             // 2. 加密
-            const ciphertextWithTag = util.encrypt(iv, plaintext, key)
-            console.log("密钥 (Base64):", util.bytesToBase64(key))
-            console.log("IV (Base64):", util.bytesToBase64(iv))
-            console.log("密文 (Base64):", util.bytesToBase64(ciphertextWithTag))
-
+            const ciphertextWithTag = util.encrypt(plaintext)
             // 3. 解密
-            const decryptedBytes = util.decrypt(iv, ciphertextWithTag, key)
-            const decryptedText = forge.util.decodeUtf8(decryptedBytes)
-            console.log("解密结果:", decryptedText)
-
-            // 验证加解密一致性
-            console.log("加解密验证:", plaintext === decryptedText ? "成功" : "失败")
+            const decryptedBytes = util.decrypt(ciphertextWithTag)
+            console.log(decryptedBytes)
         } catch (error) {
-            console.error("加解密过程出错:", error.message)
+            console.error("decrypt error:", error.message)
         }
     }
 }
 
-// 如果直接运行此文件，则执行示例
-if (require.main === module) {
-    AesGcmUtil.main()
-}
-
-module.exports = AesGcmUtil
+AesGcmUtil.testEncrypt()
