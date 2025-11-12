@@ -28,37 +28,13 @@ public class Index {
     private static final Condition conditionC = lock.newCondition();
     private static volatile char current = 'A';
 
-    static void print(char self, char next) {
-        for (int i = 0; i < 20; ) {
-            synchronized (lock2) {
-                if (current == self) {
-                    System.out.print(self);
-                    current = next;
-                    i++;
-                    lock2.notifyAll();
-                } else try {
-                    lock2.wait();
-                } catch (InterruptedException e) {
-                }
-            }
-        }
-    }
-
-    static void print(char self, char next, Condition currentCondition, Condition nextCondition) {
-        for (int i = 0; i < 20; i++) {
-            lock.lock();
-            try {
-                while (current != self) {
-                    currentCondition.await();
-                }
-                System.out.print(self);
-                current = next;
-                nextCondition.signal();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            } finally {
-                lock.unlock();
-            }
+    @Test
+    public void ste(){
+        String str="64e8cdb0bd9711e4fffd23e925fa51f56e03a45cd524229ba0d1fea0a75c8e1ceb822b97cd65bc646285dbcd368d340495207c1c9016cacb59d78f0d";
+        try {
+            System.out.println(DesUtil.aesOrDecode(str,false,true));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -119,13 +95,7 @@ public class Index {
         System.out.println(b);
     }
 
-    @Test
-    @DisplayName("测试5")
-    public void test5() {
-        new Thread(() -> print('A', 'B', conditionA, conditionB)).start();
-        new Thread(() -> print('B', 'C', conditionB, conditionC)).start();
-        new Thread(() -> print('C', 'A', conditionC, conditionA)).start();
-    }
+
 
     @Test
     @DisplayName("测试文件夹目录生成")
