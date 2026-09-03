@@ -13,9 +13,26 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
 
 public class WordToHml3 {
-
+    @Test
+    @DisplayName("转换12")
+    public void test12() throws Exception
+    {
+        String zipFilePath = "E:\\khxm\\v6.1.x-wenzhouchuangyan\\wzcy\\wzcy-resources\\CodeTemp/6a4f71017dbb7e3b3a084a19.zip";
+        File unzipDir = cn.hutool.core.util.ZipUtil.unzip(zipFilePath, Charset.defaultCharset());
+        String content;
+        List<File> files = cn.hutool.core.io.FileUtil.loopFiles(unzipDir);
+        for (File file : files) {
+            if(file.getName().endsWith(".vdd")){
+                content = cn.hutool.core.io.FileUtil.readUtf8String(file);
+                System.out.println("文件: " + file.getName() + " 内容: " + content);
+            }
+        }
+        System.out.println(unzipDir);
+    }
     @Test
     @DisplayName("转换")
     public void test() throws Exception {

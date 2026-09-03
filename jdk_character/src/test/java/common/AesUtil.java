@@ -39,4 +39,13 @@ public class AesUtil {
 
         System.out.println(decrypt(encrypt));
     }
+
+    @Test
+    public void test2() throws Exception {
+        String key = "123";
+        String encrypt = encrypt(key);
+
+
+        System.out.println(decrypt(encrypt));
+    }
 }

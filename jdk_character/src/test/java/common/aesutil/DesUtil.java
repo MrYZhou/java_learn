@@ -9,6 +9,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import common.Md5Util;
+import common.sjcl.SJCLGCMUtil;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -19,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
+import java.util.Objects;
 
 /**
  *
@@ -278,18 +280,19 @@ public class DesUtil {
      * @return
      */
     public static  String aesOrDecode(String res,boolean isEncode,boolean isAes){
-        byte[] bytes;
-        if(isEncode){
-            bytes = StrUtil.bytes(res, StandardCharsets.UTF_8);
-        }else{
-            bytes = HexUtil.decodeHex(res);
-        }
-        bytes = aesOrDecode(bytes, isEncode, isAes, Md5Util.getStringMd5("EY8WePvjM5GGwQzn"));
-        if(isEncode){
-            return HexUtil.encodeHexStr(bytes);
-        }else{
-            return StrUtil.str(bytes, StandardCharsets.UTF_8);
-        }
+        return SJCLGCMUtil.decrypt(res);
+//        byte[] bytes;
+//        if(isEncode){
+//            bytes = StrUtil.bytes(res, StandardCharsets.UTF_8);
+//        }else{
+//            bytes = HexUtil.decodeHex(res);
+//        }
+//        bytes = aesOrDecode(bytes, isEncode, isAes, Md5Util.getStringMd5("EY8WePvjM5GGwQzn"));
+//        if(isEncode){
+//            return HexUtil.encodeHexStr(bytes);
+//        }else{
+//            return StrUtil.str(bytes, StandardCharsets.UTF_8);
+//        }
     }
 
     /**
@@ -304,6 +307,7 @@ public class DesUtil {
                 return encrypt(DesUtil.generateIV(), res);
             }else{
                 try{
+                    Objects.requireNonNull(SJCLGCMUtil.decrypt(new String(res))).getBytes();
                     return decrypt(res);
                 }catch (Exception e){
                     // if decrypt fail,then use ecg mode,
