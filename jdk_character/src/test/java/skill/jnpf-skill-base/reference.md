@@ -3,8 +3,6 @@ name: jnpf-skill-base
 description: 这个是其他jnpf-skill参考的reference
 ---
 
-
----markdown
 ## 核心原则
 
 > **AI 不再从零写代码。** 基础代码全部由jnpf的相关skill进行处理。AI 只做三件事：
@@ -53,7 +51,7 @@ skill目录的jnpf-enhance目录下。文件名称格式类似  `某对话简述
 
 脚本文件，是可以运行的，如果首次遇到执行sql失败可能是mysql等数据库的依赖没装，可以装下。
 
-内容大致如下需要让用户配置下DB_CONFIG和APIHOST还有APIGENKEY然后才能执行下一步骤。后续就可以不再询问。除非环境变化，就是项目变更了。APIGENKEY请在请求的时候带上，我后面不会在代码示例中说明。get是放在请求路径，post请求则是放body
+内容大致如下需要让用户配置下DB_CONFIG和APIHOST还有APIGENKEY然后才能执行下一步骤。后续就可以不再询问。除非环境变化，就是项目变更了。
 
 ---
 
@@ -405,7 +403,7 @@ memeroy(上下文)>当前项目路径文件夹下jnpf-skill.md>claude的skills�
 
 
 
-首次可以先提示用户输入数据库，api信息，apikey等相关信息。如输入类似
+首次可以先提示用户输入数据库，api信息，apikey等相关信息。如输入类似。
 
 ---
 
@@ -428,7 +426,9 @@ memeroy(上下文)>当前项目路径文件夹下jnpf-skill.md>claude的skills�
 
 脚本文件，是可以运行的，如果首次遇到执行sql失败可能是mysql等数据库的依赖没装，可以装下。
 
-内容大致如下需要让用户配置下DB_CONFIG和APIHOST还有APIGENKEY然后才能执行下一步骤。后续就可以不再询问。除非环境变化，就是项目变更了。
+内容大致如下需要让用户配置下DB_CONFIG和APIHOST还有APIGENKEY然后才能执行下一步骤。后续就可以不再询问。除非环境变化，就是项目变更了。APIGENKEY请在请求的时候带上，我后面不会在代码示例中说明。
+
+get是放在请求路径，post请求则是放body
 
 ## 使用sql能力和请求api
 如果下面步骤让你用产品请求，则直接使用工具文件夹里面的一个jnpf-assistant.py文件脚本来执行，不需要消耗token去找工具代理。

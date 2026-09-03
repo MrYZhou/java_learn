@@ -8,7 +8,10 @@ description: 用于 JNPF 低代码平台表单设计、代码生成、API 调试
 
 ## 重要原则
 1.首先需要先读取下外面jnpf-skill-base文件夹下的所有md，里面包含信息获取原则，skill工具环境信息使用原则。sql和请求怎么处理。后面执行动作都要参考。相当于前置说明。
-2.注意关于发送请求apigenkey和mode都要带上，apigenkey在脚本里面，mode在线用的值是online.我下面请求举的示例代码不在赘述
+
+
+
+2.注意关于发送请求apigenkey和mode都要带上，apigenkey在脚本里面，mode在线用的值是"mode":"online".代码模式是用的"mode":"lowcode"我下面请求举的示例代码不在赘述。
 
 ## 步骤一：提示用户创建一个表单
 如果没有找到项目信息，需要先提示用户告诉前端项目路径，和后端项目路径方便代码生成。
@@ -171,10 +174,12 @@ python  ../jnpf-skill-base/jnpf-assistant.py sqlexecute 你生成的新建表sql
 ---
 
 ---python
-python  ../jnpf-skill-base/jnpf-assistant.py netpost /api/visualdev/Base/codegen python  ../jnpf-skill-base/jnpf-assistant.py netpost /api/visualdev/Base/codegen {\"fields\":[{\"jnpfKey\":\"radio\",\"controlTag\":\"JnpfRadio\",\"label\":\"性别\",\"vModel\":\"f_sex\",\"dataType\":\"static\",\"dictionaryType\":\"\",\"propsUrl\":\"\",\"propsName\":\"\",\"options\":[{\"fullName\":\"男\",\"id\":\"1\"},{\"fullName\":\"女\",\"id\":\"2\"}],}],\"fullName\":\"商品信息功能\",\"mode\":\"online\",\"apigenkey\":\"在脚本里面\"}
+python  ../jnpf-skill-base/jnpf-assistant.py netpost /api/visualdev/Base/codegen {\"fields\":[{\"jnpfKey\":\"radio\",\"controlTag\":\"JnpfRadio\",\"label\":\"性别\",\"vModel\":\"f_sex\",\"dataType\":\"static\",\"dictionaryType\":\"\",\"propsUrl\":\"\",\"propsName\":\"\",\"options\":[{\"fullName\":\"男\",\"id\":\"1\"},{\"fullName\":\"女\",\"id\":\"2\"}],}],\"fullName\":\"商品信息功能\",\"mode\":\"online\",\"apigenkey\":\"在脚本里面\"}
 ---
 
 最后可以输出提示用户
+
+
 
 ✅ 代码表单配置初始化完成
 
@@ -215,10 +220,11 @@ python  ../jnpf-skill-base/jnpf-assistant.py netpost /api/visualdev/Base/codegen
 内容参数大致如下：
 {
   fields:[{jnpfKey:'控制标识',controlTag:'控件前端tag',label:'字段含义',vModel:'字段数据库key'}]
-  fullName:'', 
+  fullName:''
 }
 需要把上一个步骤你生成的数据填充上面的参数，fullName是生成功能名称。如客户说生成一个商品信息功能
-fullName可以是商品信息功能,注意传的参数要注意json转义。是传的json字符串带转义。
+fullName可以是商品信息功能,注意传的参数要注意json转义。是传的json字符串带转义。同时注意要带上关键
+的apigenkey和mode
 类似：
 {\"fields\":[{\"jnpfKey\":\"input\",\"controlTag\":\"JnpfInput\",\"label\":\"商品名\",\"vModel\":\"f_goods_name\"},{\"jnpfKey\":\"radio\",\"controlTag\":\"JnpfRadio\",\"label\":\"性别\",\"vModel\":\"f_sex\",\"dataType\":\"static\",\"dictionaryType\":\"\",\"propsUrl\":\"\",\"propsName\":\"\",\"options\":[{\"fullName\":\"男\",\"id\":\"1\"},{\"fullName\":\"女\",\"id\":\"2\"}],}],\"fullName\":\"商品信息功能\"}
 
@@ -238,10 +244,4 @@ python  ../jnpf-skill-base/jnpf-assistant.py netpost /api/visualdev/Base/codegen
 ## 步骤五：生成菜单到指定平台（可选）
 设计完成后，可以说提示用户是否要生成在平台。如果客户选稍后自行发布，则流程结束，如果选要发布，那么请参考 jnpf-code-publish 的skill内容继续执行。
 
-## jnpf-skill.md文件
----sass
-这个文件是辅助用的，里面的信息也很关键通常可能会记录环境信息，和一些行为的补充，如果项目工程目录
-下有的吗要读取下理解意思
-
----
-
+## 
