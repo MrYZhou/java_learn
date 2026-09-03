@@ -6,7 +6,6 @@
 
 # BlueJ files
 *.ctxt
-
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 *log
@@ -34,3 +33,5 @@ hs_err_pid*
 ./main-module/.factorypath
 ./main-module/.settings
 ./main-module/.mvn/*
+
+*downloads/
